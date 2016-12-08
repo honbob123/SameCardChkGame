@@ -2,9 +2,11 @@ package com.SameCardChk.Game.Project;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -71,6 +73,10 @@ public class MainForm extends JFrame implements Runnable{
    private JPanel chatting;
    private ImageIcon icon;
    private JLabel image;
+   private Container cPane;
+   
+   private JButton[] Panelbtn = new JButton[18];
+   
    boolean isFirst = true;
    JTextArea txtA = new JTextArea(15,32);
    JTextField txtF = new JTextField(32);
@@ -83,11 +89,14 @@ public class MainForm extends JFrame implements Runnable{
       this.socket = socket;
       putThread = new PutThread(this);
       new ID(putThread, this);
-
+      
       setSize(1500,800); //사이즈 
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       setVisible(false);  //화면 출력
       setResizable(false); //사이즈 변경 불가
+      txtA.setEnabled(false);
+      
+      
       formInit();
    }
    
@@ -99,30 +108,54 @@ public class MainForm extends JFrame implements Runnable{
       int ypos=(int)screen.getHeight() / 2 - (int)frm.getHeight() / 2;
       setLocation(xpos, ypos);
       
+      
+      
       setLayout(null); //배치관리자 없는 컨테이너
       gaugeBa = new JPanel(); gaugeBa.setBackground(Color.YELLOW);
-      gameScreen = new JPanel(); gameScreen.setBackground(Color.YELLOW);
-      player1 = new JPanel(); player1.setBackground(Color.GRAY);
+      gameScreen = new JPanel(); gameScreen.setOpaque(true);//gameScreen.setBackground(Color.BLACK);
+      player1 = new JPanel(); player1.setBackground(Color.RED);
       player2 = new JPanel(); player2.setBackground(Color.green);
       chatting = new JPanel();
       chatting.setOpaque(false); //chatting 패널 색깔 투명
       
+      cPane = getContentPane();
+      cPane.setLayout(null);
+      
+      icon = new ImageIcon("images/bookshelves_visible.png");
+      image = new JLabel(icon);
+      
+      image.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
+      
+      cPane.add(image);
+      
+      Panelbtn[0] = new JButton(new ImageIcon("images/px-01_90_190.png"));
+      Panelbtn[0].setBorderPainted(false);
+      Panelbtn[0].setFocusPainted(false);
+      Panelbtn[0].setContentAreaFilled(false);
+      Panelbtn[0].setOpaque(false);
+      
+      gameScreen.add(Panelbtn[0], BorderLayout.NORTH);
+      
+      
       gaugeBa.setLayout(new FlowLayout());
-      gameScreen.setLayout(new BorderLayout());
+      gameScreen.setLayout(new FlowLayout());
       player1.setLayout(new BorderLayout());
       player2.setLayout(null);
       chatting.setLayout(new FlowLayout());
       
-      gaugeBa.setSize(1095, 75); gaugeBa.setLocation(5, 10);
+      gaugeBa.setSize(1100, 75); gaugeBa.setLocation(5, 10);
       add(gaugeBa);
-      gameScreen.setSize(1100, 700); gameScreen.setLocation(0, 100);
+      gameScreen.setSize(1100, 670); gameScreen.setLocation(5, 90);
       add(gameScreen);
       player1.setSize(365, 200); player1.setLocation(1115, 10);
       add(player1);
       player2.setSize(365, 200); player2.setLocation(1115, 225);
       add(player2);
-      chatting.setSize(365, 325); chatting.setLocation(1115, 435);
+      chatting.setSize(365, 340); chatting.setLocation(1115, 435);
       add(chatting);
+      
+      
+      
       
       //icon = new ImageIcon("2.PNG"); 
       //image = new JLabel(icon);

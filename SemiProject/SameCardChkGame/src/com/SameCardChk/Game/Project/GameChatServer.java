@@ -32,13 +32,15 @@ class SendThread extends Thread { //클라이언트로부터 전송된 문자열을 받아서 다른
         		// 들어온 문자열에서 "@:~~~~~ 님이 로그인했습니다." ~~~~~~ 만 짤라서 배열에 저장
         		System.out.println(Cli_Id_Array[i]);
         		i++;
+        		str = str.substring(str.indexOf(":")+1);
+        		sendMsg(str);
         	} else if(str == null) { //상대가 접속을 끊으면
                //벡터에서 없애기
                vec.remove(socket);
                break;
+            } else{
+            	sendMsg(str);
             }
-            
-            sendMsg(str);
          }
       } catch (IOException e) {
     	  sendMsg("플레이어가 나갔습니다.");
