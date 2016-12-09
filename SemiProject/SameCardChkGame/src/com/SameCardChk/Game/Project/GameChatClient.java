@@ -29,10 +29,11 @@ class PutThread { //키버드로 전송문자열 입력받아 서버로 전송
          if(mainForm.isFirst == true) { 
         	 // 맨 처음 아이디 입력후에 한번만 발생하는 이벤트
         	 // 입력한 아이디를 다른 플레이어에게 뿌려줌
-            InetAddress iaddr = socket.getLocalAddress();
+            InetAddress iaddr = socket.getLocalAddress(); 
+            
             String ip = iaddr.getHostAddress();
             getId();
-            System.out.println("IP : " + ip + " ID : " + id);
+            System.out.println("IP : " + ip + " ID : " + id + " LocalAddress : " + iaddr.toString() + " LocalSocketAddress : " + socket.getLocalSocketAddress() + " SocketChanel : " + socket.getChannel());
             
             str = "@:"+ id + " 님이 로그인했습니다!"; 
             // @를 앞에 붙여서 서버에서 체크 하게 만듬
@@ -105,7 +106,7 @@ public class GameChatClient {
       Socket socket;
       MainForm mainForm;
       try {
-         socket = new Socket("127.0.0.1", 6969);
+         socket = new Socket("127.0.0.1", 34102);
          System.out.println("연결 성공!");
          mainForm = new MainForm(socket);
          new ReadThread(socket, mainForm).start();

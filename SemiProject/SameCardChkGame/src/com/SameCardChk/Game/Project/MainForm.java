@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.net.Socket;
 
 import javax.swing.Icon;
@@ -75,7 +76,7 @@ public class MainForm extends JFrame implements Runnable{
    private JLabel image;
    private Container cPane;
    
-   private JButton[] Panelbtn = new JButton[18];
+   private JButton[] Panelbtn = new JButton[24];
    
    boolean isFirst = true;
    JTextArea txtA = new JTextArea(15,32);
@@ -118,6 +119,7 @@ public class MainForm extends JFrame implements Runnable{
       chatting = new JPanel();
       chatting.setOpaque(false); //chatting 패널 색깔 투명
       
+      
       cPane = getContentPane();
       cPane.setLayout(null);
       
@@ -127,14 +129,20 @@ public class MainForm extends JFrame implements Runnable{
       image.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
       
       cPane.add(image);
+	  
+      for(int i = 0; i < 24; i++){
+    	  
+    	  Panelbtn[i] = new JButton(new ImageIcon("images/px-01_90_190.png"));
+    	  Panelbtn[i].setRolloverEnabled(false);
+    	  Panelbtn[i].setOpaque(false);
+	      Panelbtn[i].setFocusPainted(false);
+	      Panelbtn[i].setContentAreaFilled(false);
+	      Panelbtn[i].setBorderPainted(false);
+	      gameScreen.add(Panelbtn[i]);
+      }
       
-      Panelbtn[0] = new JButton(new ImageIcon("images/px-01_90_190.png"));
-      Panelbtn[0].setBorderPainted(false);
-      Panelbtn[0].setFocusPainted(false);
-      Panelbtn[0].setContentAreaFilled(false);
-      Panelbtn[0].setOpaque(false);
       
-      gameScreen.add(Panelbtn[0], BorderLayout.NORTH);
+      
       
       
       gaugeBa.setLayout(new FlowLayout());

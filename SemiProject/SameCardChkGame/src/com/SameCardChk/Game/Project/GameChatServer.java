@@ -34,11 +34,12 @@ class SendThread extends Thread { //클라이언트로부터 전송된 문자열을 받아서 다른
         		i++;
         		str = str.substring(str.indexOf(":")+1);
         		sendMsg(str);
-        	} else if(str == null) { //상대가 접속을 끊으면
+        	}/* else if(str == null) { //상대가 접속을 끊으면
                //벡터에서 없애기
                vec.remove(socket);
                break;
-            } else{
+            }*/ 
+        	else{
             	sendMsg(str);
             }
          }
@@ -80,7 +81,7 @@ public class GameChatServer {
       Socket socket = null;
       Vector<Socket> vec = new Vector<Socket>();
       try {
-         serverSocket = new ServerSocket(6969); //포트번호 6969에 bind(결합)
+         serverSocket = new ServerSocket(34102); //포트번호 6969에 bind(결합)
          while(true) {
             System.out.println("접속 대기중...");
             socket = serverSocket.accept(); //연결 댇기중
