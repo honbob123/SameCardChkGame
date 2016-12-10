@@ -50,6 +50,7 @@ public class ClientMsgReceive extends Thread { // 서버 메세지 수신
 					sMsg = "User Connection Out";
 					break;
 				}
+				/*
 				String[] arrInfo = sMsg.split(":");
 				String sCmd = arrInfo[0];
 				String sInfo = arrInfo[1];
@@ -65,7 +66,7 @@ public class ClientMsgReceive extends Thread { // 서버 메세지 수신
 				if("CHAT".equals(sCmd)) {
 					clientUI.txtA.append(sInfo + "\n"); // 메시지 표시 
 					clientUI.txtA.setCaretPosition(clientUI.txtA.getDocument().getLength()); // 채팅 메세지 포지션 새로고침 
-				}
+				}*/
 				
 				System.out.println("[ClientMsgReceive] run() - 상대방 메세지 sMsg : " + sMsg);
 				
