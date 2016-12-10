@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.Vector;
 
 public class ServerMsgRXtoTX extends Thread { // 클라이언트로부터 전송된 문자열을 받아서 다른 클라이언트에게
-											// 문자열을 보내주는
+										// 문자열을 보내주는
 	// 스레드
 
 	Socket socket;

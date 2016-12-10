@@ -25,9 +25,9 @@ public class ClientService {
 			
 			new ClientMsgReceive(socket, clientUI).start(); // 서버 메세지 수신 시작
 			
-			// 카드게임 정보 수신
+			// 카드게임 정보 수신!
 			
-			// 카드 게임 정보 ClientMainUI에 전달
+			// 카드 게임 정보 ClientMainUI에 전달!
 			
 		} catch (IOException e) {
 			System.out.println(e.getMessage());

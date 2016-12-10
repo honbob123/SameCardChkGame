@@ -31,7 +31,7 @@ public class ClientMsgReceive extends Thread { // 서버 메세지 수신
 	 *    3. 점수 표시  			----> POINT:id:점수정보(숫자형태)
 
 	 *    4. 일반 채팅 메세지 수신  	----> CHAT:id : TEXT
-	 *    5. 로그인  			----> LOGIN:id 님이 로그인했습니다!
+	 *    5. 로그인  			----> LOGIN:id 님이 로그인했습니다!!
 	 */
 	@Override
 	public void run() {

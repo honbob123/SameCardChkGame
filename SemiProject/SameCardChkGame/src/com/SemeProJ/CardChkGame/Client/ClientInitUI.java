@@ -37,7 +37,7 @@ public class ClientInitUI extends JFrame implements ActionListener {
 		add(btn);
 		btn.addActionListener(this);
 
-		// 화면 정중앙에 나오도록하는 코드
+		// 화면 정중앙에  나오도록하는 코드
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension frm = super.getSize();
 		int xpos = (int) screen.getWidth() / 2 - (int) frm.getWidth() / 2;

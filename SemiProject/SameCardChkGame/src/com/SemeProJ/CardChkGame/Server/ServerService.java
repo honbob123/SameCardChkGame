@@ -18,7 +18,7 @@ public class ServerService {
 				System.out.println("접속 대기중...");
 				Socket socket = serverSocket.accept(); // 연결 댇기중
 				
-				// 연결된 클라이언트 소켓 벡터에 담기
+				// 연결된 클라이언트 소켓 벡터에 담기!
 				vec.add(socket);
 				
 				// 스레드 구동

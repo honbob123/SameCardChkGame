@@ -52,7 +52,7 @@ public class ClientMsgSend extends Thread { // 서버가 보내온 문자열을 
 				
 				clientUI.txtA.append(id + "님이 로그인했습니다!" + "\n");
 			} else {
-				str = id + " : " + clientUI.txtF.getText(); // 클라이언트가 채팅창에 적은				
+				str = id + " : " + clientUI.txtF.getText(); // 클라이언트가 채팅창에 적은 메세지 표시			
 			}
 			
 			System.out.println("[ClientMsgSend] sendMsg() - str :" + str);

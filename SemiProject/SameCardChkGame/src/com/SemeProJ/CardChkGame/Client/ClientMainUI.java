@@ -192,7 +192,7 @@ public class ClientMainUI extends JFrame implements Runnable {
 				
 				txtA.append(sUserID + " : " + txtF.getText() + "\n"); // 입력한 채팅 메세지 화면에 표시
 				txtA.setCaretPosition(txtA.getDocument().getLength()); // 화면 포지션 적용
-				txtF.setText(""); // 채팅 입력란 초기화
+				txtF.setText(""); // 채팅 입력란 초기화!
 			}
 		}
 	}
