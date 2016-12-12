@@ -46,7 +46,7 @@ public class ClientMainUI extends JFrame{
 		this.socket = socket;                //연결된 소켓 = 메인폼소켓
 		Player_Character = new Image[3];     //플레이어캐릭터사진 배열로 담는다
 		for(int i=0; i<Player_Character.length; i++) {
-			Player_Character[i] = new ImageIcon("C:\\Users\\Home\\JAVA\\Project\\images\\"+i+".jpg").getImage();
+			Player_Character[i] = new ImageIcon("C:\\Users\\user2\\git\\SameCardChkGame\\SemiProject\\SameCardChkGame\\images\\"+i+".jpg").getImage();
 		}
 		
 		clientMsgSend = new ClientMsgSend(this); //서버로 보내는 클래스 객체 생성
@@ -66,7 +66,7 @@ public class ClientMainUI extends JFrame{
 		
 		setFont(new Font("Andalus", Font.PLAIN, 12));
 		setTitle("카드 맞추기 게임");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\user2\\java\\project\\images\\atomicbearpink.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\user2\\git\\SameCardChkGame\\SemiProject\\SameCardChkGame\\images\\atomicbearpink.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1034, 800);
 		contentPane = new JPanel();

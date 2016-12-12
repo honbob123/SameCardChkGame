@@ -41,7 +41,7 @@ public class ClientInitUI extends JFrame {
 	
 	private void init() { //ID폼 화면 생성 메소드
 		setBackground(new Color(224, 255, 255));
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Home\\JAVA\\Project\\images\\atomicbearpink.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\user2\\git\\SameCardChkGame\\SemiProject\\SameCardChkGame\\images\\atomicbearpink.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setForeground(Color.WHITE);
 		setFont(new Font("Aharoni", Font.PLAIN, 15));
@@ -82,19 +82,19 @@ public class ClientInitUI extends JFrame {
 		piglet = new JLabel();
 		piglet.setHorizontalAlignment(SwingConstants.CENTER);
 		piglet.setVerticalAlignment(SwingConstants.TOP);
-		piglet.setIcon(new ImageIcon("C:\\Users\\Home\\JAVA\\Project\\images\\0.jpg"));
+		piglet.setIcon(new ImageIcon("C:\\Users\\user2\\git\\SameCardChkGame\\SemiProject\\SameCardChkGame\\images\\0.jpg"));
 		piglet.setBounds(87, 102, 120, 120);
 		contentPane.add(piglet);
 		
 		pooh = new JLabel();
 		pooh.setHorizontalAlignment(SwingConstants.CENTER);
-		pooh.setIcon(new ImageIcon("C:\\Users\\Home\\JAVA\\Project\\images\\1.jpg"));
+		pooh.setIcon(new ImageIcon("C:\\Users\\user2\\git\\SameCardChkGame\\SemiProject\\SameCardChkGame\\images\\1.jpg"));
 		pooh.setBounds(398, 102, 120, 120);
 		contentPane.add(pooh);
 		
 		tiger = new JLabel();
 		tiger.setHorizontalAlignment(SwingConstants.CENTER);
-		tiger.setIcon(new ImageIcon("C:\\Users\\Home\\JAVA\\Project\\images\\2.jpg"));
+		tiger.setIcon(new ImageIcon("C:\\Users\\user2\\git\\SameCardChkGame\\SemiProject\\SameCardChkGame\\images\\2.jpg"));
 		tiger.setBounds(243, 102, 120, 120);
 		contentPane.add(tiger);
 		

@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 public class ClientService {
 	
 	public static final String SERVER_IP_ADDR = "127.0.0.1";
-	public static final int SERVER_PORT = 34102;
+	public static final int SERVER_PORT = 6969;
 	
 	public static void main(String[] args) {
 		
