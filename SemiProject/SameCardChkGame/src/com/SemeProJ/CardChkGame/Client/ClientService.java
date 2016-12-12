@@ -2,19 +2,19 @@ package com.SemeProJ.CardChkGame.Client;
 
 import java.io.IOException;
 import java.net.Socket;
-
 import javax.swing.JOptionPane;
 
 public class ClientService {
 	
 	public static final String SERVER_IP_ADDR = "127.0.0.1";
 	public static final int SERVER_PORT = 6969;
+	public static final long time = System.currentTimeMillis();
 	
 	public static void main(String[] args) {
 		
 		Socket socket;
 		ClientMainUI clientUI;
-		
+
 		try {
 
 			socket = new Socket(SERVER_IP_ADDR, SERVER_PORT);
@@ -25,7 +25,13 @@ public class ClientService {
 				
 				clientUI = new ClientMainUI(socket); // 클라이언트 UI 호출
 				
-				new ClientMsgReceive(socket, clientUI).start(); // 서버 메세지 수신 시작
+				ClientMsgReceive cmr1 = new ClientMsgReceive(socket, clientUI);
+				ClientMsgReceive cmr2 = new ClientMsgReceive(socket, clientUI);				
+				cmr1.start();
+				cmr2.start();
+				// 서버 메세지 수신 시작
+				// 게임 카운트중에도 채팅 가능하게 하기 위해 쓰레드 2개 실행
+				
 				
 				// 카드게임 정보 수신!
 				
@@ -37,4 +43,5 @@ public class ClientService {
 			System.out.println(e.getMessage());
 		}
 	}
+
 }

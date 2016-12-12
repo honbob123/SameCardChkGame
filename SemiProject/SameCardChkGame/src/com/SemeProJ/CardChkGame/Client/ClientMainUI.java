@@ -9,8 +9,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.Socket;
  
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,6 +32,7 @@ public class ClientMainUI extends JFrame{
 	JLabel Player2_Id;    	  //플레이어2 아이디
 	JLabel Player2_Img;       //플레이어2 캐릭터사진
 	JLabel Player2_Score;     //플레이어2 점수
+	JButton[] Panelbtn = new JButton[16]; // 게임 스크린 버튼
 	
 	Image [] Player_Character;  //플레이어 캐릭터 사진
 	int Player_SelectCharacter; //플레이어캐릭터사진 선택 번호 (피글렛:0,푸:1,타이거:2)
@@ -46,7 +47,7 @@ public class ClientMainUI extends JFrame{
 		this.socket = socket;                //연결된 소켓 = 메인폼소켓
 		Player_Character = new Image[3];     //플레이어캐릭터사진 배열로 담는다
 		for(int i=0; i<Player_Character.length; i++) {
-			Player_Character[i] = new ImageIcon("C:\\Users\\user2\\git\\SameCardChkGame\\SemiProject\\SameCardChkGame\\images\\"+i+".jpg").getImage();
+			Player_Character[i] = new ImageIcon("images\\"+i+".jpg").getImage();
 		}
 		
 		clientMsgSend = new ClientMsgSend(this); //서버로 보내는 클래스 객체 생성
@@ -66,7 +67,7 @@ public class ClientMainUI extends JFrame{
 		
 		setFont(new Font("Andalus", Font.PLAIN, 12));
 		setTitle("카드 맞추기 게임");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\user2\\git\\SameCardChkGame\\SemiProject\\SameCardChkGame\\images\\atomicbearpink.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("images\\atomicbearpink.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1034, 800);
 		contentPane = new JPanel();
@@ -123,7 +124,7 @@ public class ClientMainUI extends JFrame{
 		Player2.add(Player2_Score);
 		
 		GameMian = new JPanel();
-		GameMian.setBackground(Color.BLUE);
+		GameMian.setBackground(Color.BLACK);
 		GameMian.setBounds(12, 91, 661, 661);
 		contentPane.add(GameMian);
 		
@@ -131,7 +132,7 @@ public class ClientMainUI extends JFrame{
 		Timer.setBackground(Color.DARK_GRAY);
 		Timer.setBounds(12, 10, 661, 71);
 		contentPane.add(Timer);
-		
+				
 		setVisible(false);
 		setResizable(false);
 	}
@@ -154,6 +155,30 @@ public class ClientMainUI extends JFrame{
 				}
 			}
 		});
+		
+		
+	}
+	public void gameScreen(String msg){ // 게임 화면 버튼 출력 부분
+		
+		int return_GameArr[] = new int[16];
+		String[] split_return = msg.substring(msg.indexOf(":")+1).split(",");
+		for(int i = 0; i <split_return.length; i++){
+			return_GameArr[i] = Integer.parseInt(split_return[i]);
+			//Panelbtn[i] = new JButton(new ImageIcon("images/"+return_GameArr[i]+".png"));
+			Panelbtn[i] = new JButton(new ImageIcon("images/test1.png"));
+			Panelbtn[i].setRolloverEnabled(false);
+			Panelbtn[i].setOpaque(false);
+	      	Panelbtn[i].setFocusPainted(false);
+	      	Panelbtn[i].setContentAreaFilled(false);
+	      	Panelbtn[i].setBorderPainted(false);
+	      	GameMian.add(Panelbtn[i]);
+		}
+		GameMian.setOpaque(true);
+		GameMian.setVisible(true);
+		//System.out.println(msg);
+		//GameMian = new JPanel();
+		//GameMian.setOpaque(true);
+		
 		
 		
 	}

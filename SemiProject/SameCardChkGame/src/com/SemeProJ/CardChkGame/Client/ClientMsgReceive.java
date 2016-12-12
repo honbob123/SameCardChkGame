@@ -36,6 +36,8 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 					else if(msg.substring(0, 9).equals("Send_Chat")) Print_Msg(msg);       //채팅 출력 메소드
 					else if(msg.substring(0, 14).equals("Go_to_the_hell")) Print_Out(msg); //플레이어가 나갔을 때 해당 플레이어 정보만 삭제 메소드
 					else if(msg.substring(0, 10).equals("Send_Start")) Print_Start(msg);   //게임 시작 메소드
+					
+					else if(msg.substring(0, 10).equals("Game_Array")) clientMainUI.gameScreen(msg);	   //게임 배열 받아서 UI로 보내는 부분
 				}else
 					break;
 			}

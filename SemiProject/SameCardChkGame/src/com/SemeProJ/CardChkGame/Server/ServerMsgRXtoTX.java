@@ -1,11 +1,11 @@
 package com.SemeProJ.CardChkGame.Server;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Random;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -16,6 +16,7 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 	private Vector<String> Info_vec;     //들어오는 순서대로 아이디와 캐릭터값 저장
 	private BufferedReader bufferedReader = null;
 	//private PrintWriter printWriter = null; (쓸 필요가 없다)
+	private int [] arr = new int[16];
 	
 	public ServerMsgRxtoTX(Socket socket, Vector<Socket> socket_vec,Vector<String> Info_vec) { //생성자
 		this.client_socekt = socket;
@@ -45,7 +46,10 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 						fullname = msg.substring(10);                    //Info_vec에서 삭제하기 위해 값을 저장
 						Id = msg.substring(11);							 //아이디값 넣어서 나갔을 때 아이디 표시해준다
 						Send_Info(msg);                                  //클라이언트한테 플레이어 정보 보내는 메소드
-						if(socket_vec.size() == 2) Send_Start();         //소켓벡터에 2명이 들어오면 게임 시작메소드 실행
+						if(socket_vec.size() == 2){
+							randNumber();
+							Send_Start();         //소켓벡터에 2명이 들어오면 게임 시작메소드 실행
+						}
 					}else if(msg.substring(0, 9).equals("Send_Chat")){   //해당 메시지가 채팅에 대한 메시지일 때
 						Send_Msg(msg);                                   //다른 모든 클라이언트에게 메시지 보내기
 					}
@@ -71,6 +75,7 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 	
 	private void Send_Start() { //클라이언트한테 게임시작 보내는 메소드
 		try {
+			//randNumber();
 			sleep(3000);
 		} catch (InterruptedException e) {}
 		for(Socket socket : socket_vec) {
@@ -130,6 +135,47 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 				JOptionPane.showMessageDialog(null, "스트림 설정 에러!","에러창", JOptionPane.ERROR_MESSAGE);
 				System.out.println("클라이언트한테 메시지 보내는 에러");
 			}
+		}
+	}
+	public void randNumber() { // 게임화면 배열 보내는 부분
+		String str_GameArr = "TEST :";
+		int check=0;
+		Random rand=new Random();
+		int return_GameArr[] = new int[16];
+		
+		for(int i=0;i<arr.length;i++)
+		{
+			arr[i]=rand.nextInt(8)+1;
+			for(int x=0;x<i;x++)
+			{
+				if(arr[i]==arr[x])
+					check++;
+			}
+			if(check==2)
+			{
+				check=0;
+				i--;
+				continue;
+			}
+			System.out.println(arr[i]);
+			check = 0; // if2의 조건이 만족하지 않으면, 변수 check에 0을 대입한다.
+			str_GameArr = str_GameArr.concat(Integer.toString(arr[i]));
+			str_GameArr = str_GameArr.concat(",");
+			System.out.println(str_GameArr);
+		} // for1 조건이 만족하면 for1종료
+		String[] split_return = (str_GameArr.substring(str_GameArr.indexOf(":")+1).split(","));
+		for(int i = 0; i < split_return.length; i++){
+			return_GameArr[i] = Integer.parseInt(split_return[i]);
+			System.out.println(return_GameArr[i]);
+		}
+		
+		for(Socket socket : socket_vec) {
+			PrintWriter printWriter;
+			try {
+				printWriter = new PrintWriter(socket.getOutputStream(), true);
+				printWriter.println("Game_Array" + str_GameArr);
+				printWriter.flush();
+			} catch (IOException e) {}
 		}
 	}
 }
