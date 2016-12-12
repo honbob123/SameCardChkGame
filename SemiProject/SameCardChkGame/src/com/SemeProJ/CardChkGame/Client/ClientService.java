@@ -3,6 +3,8 @@ package com.SemeProJ.CardChkGame.Client;
 import java.io.IOException;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
 public class ClientService {
 	
 	public static final String SERVER_IP_ADDR = "127.0.0.1";
@@ -16,20 +18,22 @@ public class ClientService {
 		try {
 			
 			socket = new Socket(SERVER_IP_ADDR, SERVER_PORT);
-			
-			System.out.println("서버 주소 : " + SERVER_IP_ADDR);
-			System.out.println("서버 포트 : " + SERVER_PORT);
-			System.out.println("서버 접속");
-			
-			clientUI = new ClientMainUI(socket); // 클라이언트 UI 호출
-			
-			new ClientMsgReceive(socket, clientUI).start(); // 서버 메세지 수신 시작
-			
-			// 카드게임 정보 수신!
-			
-			// 카드 게임 정보 ClientMainUI에 전달!
-			
+			if(socket != null) {
+				System.out.println("서버 주소 : " + SERVER_IP_ADDR);
+				System.out.println("서버 포트 : " + SERVER_PORT);
+				System.out.println("서버 접속");
+				
+				clientUI = new ClientMainUI(socket); // 클라이언트 UI 호출
+				
+				new ClientMsgReceive(socket, clientUI).start(); // 서버 메세지 수신 시작
+				
+				// 카드게임 정보 수신!
+				
+				// 카드 게임 정보 ClientMainUI에 전달!
+			}
 		} catch (IOException e) {
+			//서버와 연결 에러났을 때 에러창을  뛰운다
+			JOptionPane.showMessageDialog(null, "서버와 연결 에러!","에러창", JOptionPane.ERROR_MESSAGE);
 			System.out.println(e.getMessage());
 		}
 	}

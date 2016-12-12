@@ -1,74 +1,65 @@
 package com.SemeProJ.CardChkGame.Client;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class ClientMsgSend extends Thread { // 서버가 보내온 문자열을 전송받는 스레드
-	Socket socket;
-	ClientMainUI clientUI;
-	String str;
-	String id; // 아이디 값
+import javax.swing.JOptionPane;
 
-	public ClientMsgSend(ClientMainUI clientUI) {
-		this.clientUI = clientUI;
-		this.socket = clientUI.socket;
-	}
-
-	public void getUserId() {
-		id = ClientInitUI.getId();
-		System.out.println("[ClientMsgSend] getUserId() - User ID :" + id);
-	}
+class ClientMsgSend { //서버로 전송하는 클래스
+	private Socket socket;
+	private ClientMainUI clientMainUI;
+	private PrintWriter printWriter;
+	private String id;  //플레이어 ID
 	
-	public void sendMsg() { // 서버로 메시지 보내기
-		// 키보드로부터 읽어오기 위한 스트림객체 생성
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-		PrintWriter printWriter = null;
+	public ClientMsgSend(ClientMainUI clientMainUI) { //생성자
+		this.socket = clientMainUI.socket;
+		this.clientMainUI = clientMainUI;
 		try {
-			// 서버로 문자열 전송하기 위한 스트림객체 생성
 			printWriter = new PrintWriter(socket.getOutputStream(), true);
-			if (clientUI.isFirst == true) {
-				// 맨 처음 아이디 입력후에 한번만 발생하는 이벤트
-				// 입력한 아이디를 다른 플레이어에게 뿌려줌
-				InetAddress iaddr = socket.getLocalAddress();
-
-				String ip = iaddr.getHostAddress();
-				getUserId();
-				//System.out.println( "IP : " + ip + " ID : " + id + " LocalAddress : " + iaddr.toString() + " LocalSocketAddress : " + socket.getLocalSocketAddress() + " SocketChanel : " + socket.getChannel());
-				
-				System.out.println("[ClientMsgSend] sendMsg() --------------------- START");
-				System.out.println("[ClientMsgSend] sendMsg() - IP :" + ip);
-				System.out.println("[ClientMsgSend] sendMsg() - User ID :" + id);
-				System.out.println("[ClientMsgSend] sendMsg() - IP ADDR :" + iaddr.toString());
-				System.out.println("[ClientMsgSend] sendMsg() - Server ADDR :" + socket.getLocalSocketAddress());
-				System.out.println("[ClientMsgSend] sendMsg() - Socket INFO :" + socket.getChannel());
-				System.out.println("[ClientMsgSend] sendMsg() --------------------- END");
-				
-
-				str = "@:" + id + " 님이 로그인했습니다!";
-				// @를 앞에 붙여서 서버에서 체크 하게 만듬
-				
-				clientUI.txtA.append(id + "님이 로그인했습니다!" + "\n");
-			} else {
-				str = id + " : " + clientUI.txtF.getText(); // 클라이언트가 채팅창에 적은 메세지 표시			
-			}
-			
-			System.out.println("[ClientMsgSend] sendMsg() - str :" + str);
-			printWriter.println(str); // 입력받은 문자열 서버로 보낸다
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (bufferedReader != null) {
-					bufferedReader.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		} catch (IOException e) {
+			//서버와 연결 에러났을 때 에러창을  뛰운다
+			JOptionPane.showMessageDialog(null, "서버와 연결 에러!","에러창", JOptionPane.ERROR_MESSAGE);
+			System.out.println("서버와 연결 에러1");
 		}
 	}
-
+	
+	public void getId() { //플레이어 ID get메소드
+		id= ClientInitUI.getId();
+	}
+	
+	public void Send_Info() { //서버로 플레이어정보를 보내는 메소드
+		String msg= null;
+		getId();
+		switch(clientMainUI.Player_SelectCharacter) {
+			case 0: msg = "Send_Info/0" + id; break;
+			case 1: msg = "Send_Info/1" + id; break;
+			case 2: msg = "Send_Info/2" + id; break;
+			default: break;
+		}
+		printWriter.println(msg); //처음 입장시 플레이어 ID
+		printWriter.flush();
+	}
+ 
+	public void Send_Msg() { //서버로 채팅 메시지 보내는 메소드
+		String msg = null;
+		if(clientMainUI.isFirst == true) { //처음 연결됬는지 여부
+			getId();
+			//연결된 IP 주소 알아낸다
+			InetAddress iaddr = socket.getLocalAddress();
+			String ip = iaddr.getHostAddress();
+			System.out.println("IP : " + ip + " ID : " + id); //상대 ID와 IP 콘솔 출력
+			
+			msg = "Send_Chat" + id + "님이 로그인했습니다"; //처음 입장시 서버로 보내서 다른 클라이언트에게 보내는 메시지
+			clientMainUI.textA.append(id + "님이 로그인했습니다" + "\n");
+		}else
+			msg = "Send_Chat" + id + " : " + clientMainUI.textF.getText(); //채팅창에 적은 메시지 서버로 보내서 다른 클라이언트에게 보내는 메시지
+		
+		//메시지를 서버로 보낸다
+		printWriter.println(msg);
+		printWriter.flush();
+	}
 }

@@ -1,200 +1,160 @@
 package com.SemeProJ.CardChkGame.Client;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.net.Socket;
-
+ 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-public class ClientMainUI extends JFrame implements Runnable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+import javax.swing.border.EmptyBorder;
+ 
+public class ClientMainUI extends JFrame{
+	private JPanel contentPane;
+	JPanel GameMian; //게임 화면
+	JPanel Timer;    //타이머
+	JTextArea textA = new JTextArea(15,32); //채팅창
+	JTextField textF = new JTextField(32);  //채팅입력창
+	JPanel Player1;
+	JLabel Player1_Id;    	  //플레이어1 아이디
+	JLabel Player1_Img;   	  //플레이어1 캐릭터사진
+	JLabel Player1_Score;     //플레이어1 점수
+	JPanel Player2;       
+	JLabel Player2_Id;    	  //플레이어2 아이디
+	JLabel Player2_Img;       //플레이어2 캐릭터사진
+	JLabel Player2_Score;     //플레이어2 점수
 	
-	private JPanel gaugeBa;
-	private JPanel gameScreen;
-	private JPanel player1;
-	private JPanel player2;
-	private JPanel chatting;
+	Image [] Player_Character;  //플레이어 캐릭터 사진
+	int Player_SelectCharacter; //플레이어캐릭터사진 선택 번호 (피글렛:0,푸:1,타이거:2)
 	
-	private ImageIcon icon;
-	private JLabel image;
-	
-	private Container cPane;
-
-	private JButton[] Panelbtn = new JButton[24];
-
 	boolean isFirst = true;
-	
-	JTextArea txtA = new JTextArea(15, 32);
-	JTextField txtF = new JTextField(32);
-	
-	JLabel text;
+	//입장 순서 변수 (처음은 0, 1번째는 1반환, 2번째는 2반환)
 	
 	Socket socket;
+	ClientMsgSend clientMsgSend;
 	
-	ClientMsgSend msgSend;
+	public ClientMainUI(Socket socket) { //생성자
+		this.socket = socket;                //연결된 소켓 = 메인폼소켓
+		Player_Character = new Image[3];     //플레이어캐릭터사진 배열로 담는다
+		for(int i=0; i<Player_Character.length; i++) {
+			Player_Character[i] = new ImageIcon("C:\\Users\\Home\\JAVA\\Project\\images\\"+i+".jpg").getImage();
+		}
+		
+		clientMsgSend = new ClientMsgSend(this); //서버로 보내는 클래스 객체 생성
+		new ClientInitUI(clientMsgSend, this);           //ID폼 생성
+		init();                              //메인폼 화면 생성 메소드
+		MainForm_event();                    //메인폼 이벤트 처리 메소드
+	}
 	
-	String sUserID = "";
-	
-	public void setUserID(String sUserID) {
-		this.sUserID = sUserID;
-	}
-	public String getUserID() {
+	public void init() { //메인폼 화면 생성 메소드
 		
-		return this.sUserID; 
-	}
-	public ClientMainUI(Socket socket) {
-		
-		super("PlayUp!");
-		this.socket = socket;
-		
-		msgSend = new ClientMsgSend(this);
-		
-		new ClientInitUI(msgSend, this); // 클라이언트 로그인 UI 호출
-
-		// Main UI Config INFO
-		setSize(1500, 800); // 사이즈
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(false); // 화면 출력
-		setResizable(false); // 사이즈 변경 불가
-		txtA.setEnabled(false);
-		
-		// Main UI JFrame Detail Setting
-		formInit();
-	}
-
-	public void formInit() {
-		
-		// 화면 정중앙에 나오도록하는 코드
-		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		Dimension frm = super.getSize();
-		int xpos = (int) screen.getWidth() / 2 - (int) frm.getWidth() / 2;
-		int ypos = (int) screen.getHeight() / 2 - (int) frm.getHeight() / 2;
+		//화면 정중앙에 나오도록하는 코드
+		Dimension screen=Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension frm=super.getSize();
+		int xpos=(int)screen.getWidth() / 2 - (int)frm.getWidth() / 2;
+		int ypos=(int)screen.getHeight() / 2 - (int)frm.getHeight() / 2;
 		setLocation(xpos, ypos);
-
-		setLayout(null); // 배치관리자 없는 컨테이너
-		gaugeBa = new JPanel();
-		gaugeBa.setBackground(Color.YELLOW);
-		gameScreen = new JPanel();
-		gameScreen.setOpaque(true);// gameScreen.setBackground(Color.BLACK);
-		player1 = new JPanel();
-		player1.setBackground(Color.RED);
-		player2 = new JPanel();
-		player2.setBackground(Color.green);
-		chatting = new JPanel();
-		chatting.setOpaque(false); // chatting 패널 색깔 투명
-
-		cPane = getContentPane();
-		cPane.setLayout(null);
-
-		icon = new ImageIcon("images/bookshelves_visible.png");
-		image = new JLabel(icon);
-
-		image.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
-
-		cPane.add(image);
-
-		for (int i = 0; i < 24; i++) {
-
-			Panelbtn[i] = new JButton(new ImageIcon("images/px-01_90_190.png"));
-			Panelbtn[i].setRolloverEnabled(false);
-			Panelbtn[i].setOpaque(false);
-			Panelbtn[i].setFocusPainted(false);
-			Panelbtn[i].setContentAreaFilled(false);
-			Panelbtn[i].setBorderPainted(false);
-			
-			gameScreen.add(Panelbtn[i]);
-		}
 		
-		// Main UI 각각 레이아웃 초기화 구성
-		gaugeBa.setLayout(new FlowLayout());
-		gameScreen.setLayout(new FlowLayout());
+		setFont(new Font("Andalus", Font.PLAIN, 12));
+		setTitle("카드 맞추기 게임");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\user2\\java\\project\\images\\atomicbearpink.png"));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 1034, 800);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
-		player1.setLayout(new BorderLayout());
-		player2.setLayout(null);
+		Player1 = new JPanel();
+		Player1.setBounds(685, 10, 326, 163);
+		contentPane.add(Player1);
+		Player1.setLayout(null);
 		
-		chatting.setLayout(new FlowLayout());
-
-		gaugeBa.setSize(1100, 75);
-		gaugeBa.setLocation(5, 10);
-		add(gaugeBa);
+		Player1_Id = new JLabel("");
+		Player1_Id.setFont(new Font("휴먼둥근헤드라인", Font.PLAIN, 16));
+		Player1_Id.setBounds(157, 44, 143, 41);
+		Player1.add(Player1_Id);
 		
-		gameScreen.setSize(1100, 670);
-		gameScreen.setLocation(5, 90);
-		add(gameScreen);
+		Player1_Img = new JLabel("");
+		Player1_Img.setBounds(12, 36, 120, 120);
+		Player1.add(Player1_Img);
 		
-		player1.setSize(365, 200);
-		player1.setLocation(1115, 10);
-		add(player1);
+		Player1_Score = new JLabel("");
+		Player1_Score.setFont(new Font("휴먼둥근헤드라인", Font.PLAIN, 16));
+		Player1_Score.setBounds(157, 98, 143, 41);
+		Player1.add(Player1_Score);
 		
-		player2.setSize(365, 200);
-		player2.setLocation(1115, 225);
-		add(player2);
+		textF = new JTextField("");
+		textF.setBounds(685, 731, 326, 21);
+		contentPane.add(textF);
+		textF.setColumns(10);
 		
-		chatting.setSize(365, 340);
-		chatting.setLocation(1115, 435);
-		add(chatting);
-
-		// icon = new ImageIcon("2.PNG");
-		// image = new JLabel(icon);
-		// player1.add(image);
-
-		// 채팅 화면 구성
-		chatting.add(new JScrollPane(txtA));
-		chatting.add(txtF);
+		textA = new JTextArea();
+		textA.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		textA.setBounds(685, 356, 326, 365);
+		contentPane.add(textA);
 		
-		// 채팅창 내 엔터 이벤트 리스너 추가
-		txtF.addKeyListener(new KeyEvents());
-		// txtA.setFont(new Font("Serif", Font.ITALIC, 10));
-
+		Player2 = new JPanel();
+		Player2.setLayout(null);
+		Player2.setBounds(685, 183, 326, 163);
+		contentPane.add(Player2);
+		
+		Player2_Id = new JLabel("");
+		Player2_Id.setFont(new Font("휴먼둥근헤드라인", Font.PLAIN, 16));
+		Player2_Id.setBounds(157, 44, 143, 41);
+		Player2.add(Player2_Id);
+		
+		Player2_Img = new JLabel("");
+		Player2_Img.setBounds(12, 36, 120, 120);
+		Player2.add(Player2_Img);
+		
+		Player2_Score = new JLabel("");
+		Player2_Score.setFont(new Font("휴먼둥근헤드라인", Font.PLAIN, 16));
+		Player2_Score.setBounds(157, 98, 143, 41);
+		Player2.add(Player2_Score);
+		
+		GameMian = new JPanel();
+		GameMian.setBackground(Color.BLUE);
+		GameMian.setBounds(12, 91, 661, 661);
+		contentPane.add(GameMian);
+		
+		Timer = new JPanel();
+		Timer.setBackground(Color.DARK_GRAY);
+		Timer.setBounds(12, 10, 661, 71);
+		contentPane.add(Timer);
+		
+		setVisible(false);
+		setResizable(false);
 	}
-	
-	// 게임 화면 업데이트
-	/*
-	 * gameScreenUpdate()는 서버에서 전달한 카드 게임의 정보를 수신하여
-	 * gameScreen에 표시하기 위해 gameScreen을 재구성 또는 초기화 하는 메서드이다.
-	 */
-	public void gameScreenUpdate(String sCmd) {
+	private void MainForm_event() { //메인폼 이벤트 처리 메소드
 		
-	}
-	
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-	}
-
-	class KeyEvents extends KeyAdapter {
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				if (txtF.getText().equals("")) {
-					return; // 메시지 입력없이 눌렀을 경우
+		//채팅 입력창에 대한 이벤트
+		textF.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {}
+			@Override
+			public void keyReleased(KeyEvent e) {}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				String id = ClientInitUI.getId(); //입력받은 id값
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) { //엔터키 눌렀을 때
+					if(textF.getText().equals("")) return; //메시지 입력없이 눌렀을 때
+					textA.append(id + " : " + textF.getText() + "\n"); //자기 txtA에 출력
+					clientMsgSend.Send_Msg();//서버에 보내서 다른클라이언트에게 보여준다
+					textF.setText(""); //채팅창에 아무것도 업게 한다
 				}
-				sUserID = ClientInitUI.getId();
-				
-				msgSend.sendMsg(); // 채팅 메세지 서버로 전송
-				
-				txtA.append(sUserID + " : " + txtF.getText() + "\n"); // 입력한 채팅 메세지 화면에 표시
-				txtA.setCaretPosition(txtA.getDocument().getLength()); // 화면 포지션 적용
-				txtF.setText(""); // 채팅 입력란 초기화!
 			}
-		}
+		});
+		
+		
 	}
-
 }
