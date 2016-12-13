@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.Socket;
@@ -18,13 +19,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.DefaultCaret;
  
 public class ClientMainUI extends JFrame{
 	private JPanel contentPane;
 	JPanel GameMian; //게임 화면
 	JPanel Timer;    //타이머
 	JTextArea textA = new JTextArea(); //채팅창
-	JScrollPane scroll;
+	JScrollPane scroll;	//채팅창 스크롤바
 	JTextField textF = new JTextField(32);  //채팅입력창
 	JPanel Player1;
 	JLabel Player1_Id;    	  //플레이어1 아이디
@@ -106,6 +108,9 @@ public class ClientMainUI extends JFrame{
 	      scroll.setBounds(685, 356, 326, 365);
 	      textA.setEnabled(false);
 	      textA.setFont(new Font("Monospaced", Font.PLAIN, 14));
+	      textA.setDisabledTextColor(Color.RED);
+	      DefaultCaret caret = (DefaultCaret) textA.getCaret();	// 채팅스크롤 가장 밑으로 옮기는 부분
+	      caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);	// 위와 동일
 	      contentPane.add(scroll);
 
 		
@@ -165,8 +170,11 @@ public class ClientMainUI extends JFrame{
 	}
 	public void gameScreen(String msg){ // 게임 화면 버튼 출력 부분
 		
+
 		int return_GameArr[] = new int[16];
 		String[] split_return = msg.substring(msg.indexOf(":")+1).split(",");
+		GameButtonActionListener gba;
+		//ClientCardButton[] CardButton = new ClientCardButton[return_GameArr.length];
 		for(int i = 0; i <split_return.length; i++){
 			return_GameArr[i] = Integer.parseInt(split_return[i]);
 			Panelbtn[i] = new JButton(new ImageIcon("images/"+return_GameArr[i]+".png"));
@@ -176,6 +184,10 @@ public class ClientMainUI extends JFrame{
 	      	Panelbtn[i].setFocusPainted(false);
 	      	Panelbtn[i].setContentAreaFilled(false);
 	      	Panelbtn[i].setBorderPainted(false);
+	      	gba = new GameButtonActionListener(Panelbtn);
+	      	Panelbtn[i].getIcon();
+	      	Panelbtn[i].addActionListener(gba);
+	      	Panelbtn[i].setActionCommand(Integer.toString(i));
 	      	GameMian.add(Panelbtn[i]);
 		}
 		GameMian.setOpaque(true);
@@ -187,4 +199,5 @@ public class ClientMainUI extends JFrame{
 	public void gameScreenOn(){
 		GameMian.setVisible(true);
 	}
+	
 }

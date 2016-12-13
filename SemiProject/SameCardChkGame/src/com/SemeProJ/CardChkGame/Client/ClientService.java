@@ -26,9 +26,9 @@ public class ClientService {
 				clientUI = new ClientMainUI(socket); // 클라이언트 UI 호출
 				
 				ClientMsgReceive cmr1 = new ClientMsgReceive(socket, clientUI);
-				ClientMsgReceive cmr2 = new ClientMsgReceive(socket, clientUI);				
+				//ClientMsgReceive cmr2 = new ClientMsgReceive(socket, clientUI);				
 				cmr1.start();
-				cmr2.start();
+				//cmr2.start();
 				// 서버 메세지 수신 시작
 				// 게임 카운트중에도 채팅 가능하게 하기 위해 쓰레드 2개 실행
 				
