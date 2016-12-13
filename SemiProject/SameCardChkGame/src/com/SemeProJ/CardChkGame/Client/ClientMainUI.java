@@ -124,7 +124,7 @@ public class ClientMainUI extends JFrame{
 		Player2.add(Player2_Score);
 		
 		GameMian = new JPanel();
-		GameMian.setBackground(Color.BLACK);
+		//GameMian.setBackground(Color.BLACK);
 		GameMian.setBounds(12, 91, 661, 661);
 		contentPane.add(GameMian);
 		
@@ -164,8 +164,8 @@ public class ClientMainUI extends JFrame{
 		String[] split_return = msg.substring(msg.indexOf(":")+1).split(",");
 		for(int i = 0; i <split_return.length; i++){
 			return_GameArr[i] = Integer.parseInt(split_return[i]);
-			//Panelbtn[i] = new JButton(new ImageIcon("images/"+return_GameArr[i]+".png"));
-			Panelbtn[i] = new JButton(new ImageIcon("images/test1.png"));
+			Panelbtn[i] = new JButton(new ImageIcon("images/"+return_GameArr[i]+".png"));
+			//Panelbtn[i] = new JButton(new ImageIcon("images/test1.png"));
 			Panelbtn[i].setRolloverEnabled(false);
 			Panelbtn[i].setOpaque(false);
 	      	Panelbtn[i].setFocusPainted(false);
@@ -174,12 +174,12 @@ public class ClientMainUI extends JFrame{
 	      	GameMian.add(Panelbtn[i]);
 		}
 		GameMian.setOpaque(true);
-		GameMian.setVisible(true);
+		GameMian.setVisible(false);
 		//System.out.println(msg);
 		//GameMian = new JPanel();
 		//GameMian.setOpaque(true);
-		
-		
-		
+	}
+	public void gameScreenOn(){
+		GameMian.setVisible(true);
 	}
 }

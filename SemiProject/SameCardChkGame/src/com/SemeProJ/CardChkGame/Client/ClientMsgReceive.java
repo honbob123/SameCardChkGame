@@ -63,6 +63,7 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 				clientMainUI.textA.append(s +"초!" + "\n");
 			} catch (InterruptedException e) {}
 		}
+		clientMainUI.gameScreenOn();
 		clientMainUI.textA.append("게임 시작!!" + "\n");
 		//메인폼 게임화면에 카드 출력
 	}
