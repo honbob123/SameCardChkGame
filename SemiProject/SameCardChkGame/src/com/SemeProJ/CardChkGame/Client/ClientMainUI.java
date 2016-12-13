@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -22,7 +23,8 @@ public class ClientMainUI extends JFrame{
 	private JPanel contentPane;
 	JPanel GameMian; //게임 화면
 	JPanel Timer;    //타이머
-	JTextArea textA = new JTextArea(15,32); //채팅창
+	JTextArea textA = new JTextArea(); //채팅창
+	JScrollPane scroll;
 	JTextField textF = new JTextField(32);  //채팅입력창
 	JPanel Player1;
 	JLabel Player1_Id;    	  //플레이어1 아이디
@@ -100,9 +102,12 @@ public class ClientMainUI extends JFrame{
 		textF.setColumns(10);
 		
 		textA = new JTextArea();
-		textA.setFont(new Font("Monospaced", Font.PLAIN, 14));
-		textA.setBounds(685, 356, 326, 365);
-		contentPane.add(textA);
+	      scroll = new JScrollPane(textA);
+	      scroll.setBounds(685, 356, 326, 365);
+	      textA.setEnabled(false);
+	      textA.setFont(new Font("Monospaced", Font.PLAIN, 14));
+	      contentPane.add(scroll);
+
 		
 		Player2 = new JPanel();
 		Player2.setLayout(null);
