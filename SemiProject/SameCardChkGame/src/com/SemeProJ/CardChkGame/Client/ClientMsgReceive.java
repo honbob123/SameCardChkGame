@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -38,6 +39,7 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 					else if(msg.substring(0, 10).equals("Send_Start")) Print_Start(msg);   //게임 시작 메소드
 					
 					else if(msg.substring(0, 10).equals("Game_Array")) clientMainUI.gameScreen(msg);	   //게임 배열 받아서 UI로 보내는 부분
+					else if(msg.substring(0, 20).equals("Game_Score_and_Array")) gameScreenDel(msg);		// 상대편이 보낸 정답 부분 gameScreenDel로 보냄
 				}else
 					break;
 			}
@@ -111,5 +113,18 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 			clientMainUI.Player2_Score.setText("");
 			clientMainUI.Player2.updateUI();
 		}
+	}
+	private void gameScreenDel(String msg){ // 상대편이 맞춘부분 없에는 코드
+		System.out.println(msg);
+		
+		String [] split_other_player = msg.substring(21).split(",");
+		int GameArrDel1 = Integer.parseInt(split_other_player[1]);
+		int GameArrDel2 = Integer.parseInt(split_other_player[2]);
+		Icon setbtnIcon = new ImageIcon("images/"+ ClientMainUI.Panelbtn[GameArrDel1].getName() +".png");
+		ClientMainUI.Panelbtn[GameArrDel1].setIcon(setbtnIcon);
+		ClientMainUI.Panelbtn[GameArrDel1].setEnabled(false);
+		setbtnIcon = new ImageIcon("images/"+ ClientMainUI.Panelbtn[GameArrDel2].getName() +".png");
+		ClientMainUI.Panelbtn[GameArrDel2].setIcon(setbtnIcon);
+		ClientMainUI.Panelbtn[GameArrDel2].setEnabled(false);
 	}
 }

@@ -17,6 +17,9 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 	private BufferedReader bufferedReader = null;
 	//private PrintWriter printWriter = null; (쓸 필요가 없다)
 	private int [] arr = new int[16];
+	private int Player1_Score = 0;
+	private int Player2_Score = 0;
+	
 	
 	public ServerMsgRxtoTX(Socket socket, Vector<Socket> socket_vec,Vector<String> Info_vec) { //생성자
 		this.client_socekt = socket;
@@ -52,6 +55,8 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 						}
 					}else if(msg.substring(0, 9).equals("Send_Chat")){   //해당 메시지가 채팅에 대한 메시지일 때
 						Send_Msg(msg);                                   //다른 모든 클라이언트에게 메시지 보내기
+					}else if(msg.substring(0, 20).equals("Game_Score_and_Array")){ // 클라이언트에서 정답이 발생했을때 오는 메세지의 헤더
+						Send_Msg(msg);
 					}
 				}else //클라이언트가 나갔을 때 while문을 빠져 나간다
 					
@@ -86,7 +91,7 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 			} catch (IOException e) {}
 		}
 	}
-	
+		
 	private void Send_Info(String msg) {  //클라이언트한테 플레이어 정보 보내는 메소드
 		Info_vec.add(msg.substring(10));  //벡터에 순서대로 이미지순서,ID 삽입
 		for(Socket socket : socket_vec) { //모든 클라이언트한테 정보를 낸다  
@@ -176,6 +181,14 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 				printWriter.println("Game_Array" + str_GameArr);
 				printWriter.flush();
 			} catch (IOException e) {}
+		}
+	}
+	
+	public void ScoreChk(int player){ // 미구현 소스 
+		if(player == 0){
+			Player1_Score++;
+		}else{
+			Player2_Score++;
 		}
 	}
 }

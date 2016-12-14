@@ -36,7 +36,8 @@ public class ClientMainUI extends JFrame{
 	JLabel Player2_Id;    	  //플레이어2 아이디
 	JLabel Player2_Img;       //플레이어2 캐릭터사진
 	JLabel Player2_Score;     //플레이어2 점수
-	JButton[] Panelbtn = new JButton[16]; // 게임 스크린 버튼
+	static public JButton[] Panelbtn = new JButton[16]; // 게임 스크린 버튼
+	//public static boolean GameArr_chkFirst = false;
 	
 	Image [] Player_Character;  //플레이어 캐릭터 사진
 	int Player_SelectCharacter; //플레이어캐릭터사진 선택 번호 (피글렛:0,푸:1,타이거:2)
@@ -177,17 +178,18 @@ public class ClientMainUI extends JFrame{
 		//ClientCardButton[] CardButton = new ClientCardButton[return_GameArr.length];
 		for(int i = 0; i <split_return.length; i++){
 			return_GameArr[i] = Integer.parseInt(split_return[i]);
-			Panelbtn[i] = new JButton(new ImageIcon("images/"+return_GameArr[i]+".png"));
-			//Panelbtn[i] = new JButton(new ImageIcon("images/test1.png"));
-			Panelbtn[i].setRolloverEnabled(false);
-			Panelbtn[i].setOpaque(false);
-	      	Panelbtn[i].setFocusPainted(false);
-	      	Panelbtn[i].setContentAreaFilled(false);
-	      	Panelbtn[i].setBorderPainted(false);
+			//Panelbtn[i] = new JButton(new ImageIcon("images/"+return_GameArr[i]+".png"));
+			Panelbtn[i] = new JButton(new ImageIcon("images/0.png"));
+			Panelbtn[i].setRolloverEnabled(false);			// 버튼 투명 관련 옵션
+			Panelbtn[i].setOpaque(false);					// 버튼 투명 관련 옵션
+	      	Panelbtn[i].setFocusPainted(false);				// 버튼 투명 관련 옵션
+	      	Panelbtn[i].setContentAreaFilled(false);		// 버튼 투명 관련 옵션
+	      	Panelbtn[i].setBorderPainted(false);			// 버튼 투명 관련 옵션
 	      	gba = new GameButtonActionListener(Panelbtn);
 	      	Panelbtn[i].getIcon();
 	      	Panelbtn[i].addActionListener(gba);
-	      	Panelbtn[i].setActionCommand(Integer.toString(i));
+	      	Panelbtn[i].setName(split_return[i]); 				// 버튼 이미지 번호 세팅
+	      	Panelbtn[i].setActionCommand(Integer.toString(i)); // 
 	      	GameMian.add(Panelbtn[i]);
 		}
 		GameMian.setOpaque(true);

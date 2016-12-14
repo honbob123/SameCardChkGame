@@ -10,10 +10,10 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 
 class ClientMsgSend { //서버로 전송하는 클래스
-	private Socket socket;
+	public static Socket socket;
 	private ClientMainUI clientMainUI;
-	private PrintWriter printWriter;
-	private String id;  //플레이어 ID
+	public static PrintWriter printWriter;
+	public static String id;  //플레이어 ID
 	
 	public ClientMsgSend(ClientMainUI clientMainUI) { //생성자
 		this.socket = clientMainUI.socket;
