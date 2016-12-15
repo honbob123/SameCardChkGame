@@ -22,43 +22,52 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
  
 public class ClientMainUI extends JFrame{
-	private JPanel contentPane;
-	JPanel GameMian; //게임 화면
-	JPanel Timer;    //타이머
-	JTextArea textA = new JTextArea(); //채팅창
-	JScrollPane scroll;	//채팅창 스크롤바
-	JTextField textF = new JTextField(32);  //채팅입력창
-	JPanel Player1;
-	JLabel Player1_Id;    	  //플레이어1 아이디
-	JLabel Player1_Img;   	  //플레이어1 캐릭터사진
-	JLabel Player1_Score;     //플레이어1 점수
-	JPanel Player2;       
-	JLabel Player2_Id;    	  //플레이어2 아이디
-	JLabel Player2_Img;       //플레이어2 캐릭터사진
-	JLabel Player2_Score;     //플레이어2 점수
+	JPanel contentPane;
+	JPanel GameMain;                       //게임 화면
+	JPanel Timer;                          //타이머
+	JTextArea textA = new JTextArea();     //채팅창
+	JScrollPane scroll;	                   //채팅창 스크롤바
+	JTextField textF = new JTextField(32); //채팅입력창
+	JPanel Player1;                        //플레이어1 패널
+	JLabel Player1_Id;    	  			   //플레이어1 아이디
+	JLabel Player1_Img;   	  			   //플레이어1 캐릭터사진
+	JLabel Player1_Score;                  //플레이어1 점수
+	JPanel Player2;          			   //플레이어2 패널
+	JLabel Player2_Id;    	 		       //플레이어2 아이디
+	JLabel Player2_Img;     			   //플레이어2 캐릭터사진
+	JLabel Player2_Score;    			   //플레이어2 점수
+	int score1 = 0, score2 = 0; //초기값 0주고
+	ImageIcon [] Player_Character;  	   //플레이어 캐릭터 사진
+	int Player_SelectCharacter = -1;   	       //플레이어캐릭터사진 선택 번호 (피글렛:0,푸:1,타이거:2)
+	ImageIcon [] Card_Character;   		   //게임 카드 사진
+	boolean isFirst = true;      	       //입장 순서 변수 (처음은 0, 1번째는 1반환, 2번째는 2반환)
 	static public JButton[] Panelbtn = new JButton[16]; // 게임 스크린 버튼
-	//public static boolean GameArr_chkFirst = false;
-	
-	Image [] Player_Character;  //플레이어 캐릭터 사진
-	int Player_SelectCharacter; //플레이어캐릭터사진 선택 번호 (피글렛:0,푸:1,타이거:2)
-	
-	boolean isFirst = true;
-	//입장 순서 변수 (처음은 0, 1번째는 1반환, 2번째는 2반환)
-	
 	Socket socket;
 	ClientMsgSend clientMsgSend;
 	
 	public ClientMainUI(Socket socket) { //생성자
-		this.socket = socket;                //연결된 소켓 = 메인폼소켓
-		Player_Character = new Image[3];     //플레이어캐릭터사진 배열로 담는다
-		for(int i=0; i<Player_Character.length; i++) {
-			Player_Character[i] = new ImageIcon("images\\"+i+".jpg").getImage();
+		this.socket = socket;                          //연결된 소켓 = 메인폼소켓
+		Player_Character = new ImageIcon[3];           //플레이어 캐릭터사진을 배열로 담는다
+		Card_Character = new ImageIcon[9];             //게임 카드사진을 배열로 담는다
+		for(int i=0; i<Player_Character.length; i++) { //플레이어 캐릭터 사진 삽입
+			Player_Character[i] = new ImageIcon("images\\"+i+".jpg");
 		}
-		
-		clientMsgSend = new ClientMsgSend(this); //서버로 보내는 클래스 객체 생성
+		for(int i=0; i<Card_Character.length; i++) {   //카드 캐릭터 사진 삽입
+			Card_Character[i] = new ImageIcon("images\\" +i+".png");
+			//image[0] = 0.png
+			//image[1] = 1.png
+			//image[2] = 2.png
+			//image[3] = 3.png
+			//image[4] = 4.png
+			//image[5] = 5.png
+			//image[6] = 6.png
+			//image[7] = 7.png
+			//image[8] = 8.png
+		}
+		clientMsgSend = new ClientMsgSend(this);         //서버로 보내는 클래스 객체 생성
 		new ClientInitUI(clientMsgSend, this);           //ID폼 생성
-		init();                              //메인폼 화면 생성 메소드
-		MainForm_event();                    //메인폼 이벤트 처리 메소드
+		init();                                          //메인폼 화면 생성 메소드
+		MainForm_event();                                //메인폼 이벤트 처리 메소드
 	}
 	
 	public void init() { //메인폼 화면 생성 메소드
@@ -76,6 +85,7 @@ public class ClientMainUI extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1034, 800);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -105,14 +115,15 @@ public class ClientMainUI extends JFrame{
 		textF.setColumns(10);
 		
 		textA = new JTextArea();
-	      scroll = new JScrollPane(textA);
-	      scroll.setBounds(685, 356, 326, 365);
-	      textA.setEnabled(false);
-	      textA.setFont(new Font("Monospaced", Font.PLAIN, 14));
-	      textA.setDisabledTextColor(Color.RED);
-	      DefaultCaret caret = (DefaultCaret) textA.getCaret();	// 채팅스크롤 가장 밑으로 옮기는 부분
-	      caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);	// 위와 동일
-	      contentPane.add(scroll);
+	    scroll = new JScrollPane(textA);
+	    scroll.setBounds(685, 356, 326, 365);
+	    textA.setEnabled(false);
+	    scroll.setBorder(null);
+	    textA.setFont(new Font("Monospaced", Font.PLAIN, 14));
+	    textA.setDisabledTextColor(Color.BLACK);
+	    DefaultCaret caret = (DefaultCaret) textA.getCaret();	// 채팅스크롤 가장 밑으로 옮기는 부분
+	    caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);	    // 위와 동일
+	    contentPane.add(scroll);
 
 		
 		Player2 = new JPanel();
@@ -134,10 +145,10 @@ public class ClientMainUI extends JFrame{
 		Player2_Score.setBounds(157, 98, 143, 41);
 		Player2.add(Player2_Score);
 		
-		GameMian = new JPanel();
-		//GameMian.setBackground(Color.BLACK);
-		GameMian.setBounds(12, 91, 661, 661);
-		contentPane.add(GameMian);
+		GameMain = new JPanel();
+		GameMain.setBackground(Color.WHITE);
+		GameMain.setBounds(12, 91, 661, 661);
+		contentPane.add(GameMain);
 		
 		Timer = new JPanel();
 		Timer.setBackground(Color.DARK_GRAY);
@@ -147,6 +158,7 @@ public class ClientMainUI extends JFrame{
 		setVisible(false);
 		setResizable(false);
 	}
+	
 	private void MainForm_event() { //메인폼 이벤트 처리 메소드
 		
 		//채팅 입력창에 대한 이벤트
@@ -157,21 +169,18 @@ public class ClientMainUI extends JFrame{
 			public void keyReleased(KeyEvent e) {}
 			@Override
 			public void keyPressed(KeyEvent e) {
-				String id = ClientInitUI.getId(); //입력받은 id값
-				if(e.getKeyCode() == KeyEvent.VK_ENTER) { //엔터키 눌렀을 때
-					if(textF.getText().equals("")) return; //메시지 입력없이 눌렀을 때
+				String id = ClientInitUI.getId();          //입력받은 id값
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {  //엔터키 눌렀을 때
+					if(textF.getText().equals("")) return; //메시지 입력없이 눌렀을 때 
 					textA.append(id + " : " + textF.getText() + "\n"); //자기 txtA에 출력
-					clientMsgSend.Send_Msg();//서버에 보내서 다른클라이언트에게 보여준다
-					textF.setText(""); //채팅창에 아무것도 업게 한다
+					clientMsgSend.Send_Msg(); //서버에 보내서 다른클라이언트에게 보여준다
+					textF.setText("");        //채팅창에 아무것도 업게 한다
 				}
 			}
 		});
-		
-		
 	}
-	public void gameScreen(String msg){ // 게임 화면 버튼 출력 부분
-		
-
+	
+	public void gameScreen(String msg) { // 게임 화면 버튼 출력 메소드
 		int return_GameArr[] = new int[16];
 		String[] split_return = msg.substring(msg.indexOf(":")+1).split(",");
 		GameButtonActionListener gba;
@@ -188,18 +197,30 @@ public class ClientMainUI extends JFrame{
 	      	gba = new GameButtonActionListener(Panelbtn);
 	      	Panelbtn[i].getIcon();
 	      	Panelbtn[i].addActionListener(gba);
-	      	Panelbtn[i].setName(split_return[i]); 				// 버튼 이미지 번호 세팅
-	      	Panelbtn[i].setActionCommand(Integer.toString(i)); // 
-	      	GameMian.add(Panelbtn[i]);
+	      	Panelbtn[i].setName(split_return[i]); 				// 버튼 저장값
+	      	Panelbtn[i].setActionCommand(Integer.toString(i));  // 버튼 순서 
+	      	GameMain.add(Panelbtn[i]);
 		}
-		GameMian.setOpaque(true);
-		GameMian.setVisible(false);
-		//System.out.println(msg);
-		//GameMian = new JPanel();
-		//GameMian.setOpaque(true);
+		GameMain.setOpaque(true);
+		GameMain.setVisible(false);
+		/*String[] split_return = msg.substring(msg.indexOf(":")+1).split(",");
+		int return_GameArr[] = new int[split_return.length];
+		for(int i=0; i<split_return.length; i++) {
+			return_GameArr[i] = Integer.parseInt(split_return[i]);
+		}
+		ClientCardButton[] clientcardButton = new ClientCardButton[split_return.length]; //서버에서온 배열 길이로 카드버튼을 만든다
+		GameButtonActionListener gameButtonActionListener = new GameButtonActionListener(clientcardButton, this);
+		for(int i=0; i<split_return.length; i++) {
+			clientcardButton[i] = new ClientCardButton(Integer.toString(i), return_GameArr[i], Card_Character[return_GameArr[i]], Card_Character[0]);
+			clientcardButton[i].addActionListener(gameButtonActionListener); //버튼마다 이벤트 등록
+			clientcardButton[i].setContentAreaFilled(false);                 //버튼을 사진크기에 맞춘다
+			clientcardButton[i].setBorderPainted(false);                     //테두리를 없앤다
+			GameMain.add(clientcardButton[i]);
+		}*/
 	}
+	
 	public void gameScreenOn(){
-		GameMian.setVisible(true);
+		GameMain.setVisible(true);
 	}
 	
 }

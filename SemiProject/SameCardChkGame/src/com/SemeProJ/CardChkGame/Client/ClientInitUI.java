@@ -10,20 +10,23 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 public class ClientInitUI extends JFrame {
 
-	private JPanel contentPane; // 컨텐트 팬
-	static JTextField userId; // 아이디 입력 창
-	private JLabel character_choice;// 캐럭터 선택 레이블
-	private JLabel id_enter; // 아이디 입력 레이블
-	private JButton btn_Make; // 확인 버튼
-
-	private JButton[] jr; // 캐릭터 이미지 저장용 배열 필드
+	private JPanel contentPane;      // 컨텐트 팬
+	static JTextField userId;        // 아이디 입력 창
+	private JLabel character_choice; // 캐럭터 선택 레이블
+	private JLabel id_enter;         // 아이디 입력 레이블
+	private JButton btn_Make;        // 확인 버튼
+	private JLabel character_label;  // 캐릭터 소개 레이블
+	private JTextArea character_Name;// 캐릭터 소개 텍스트창
+	private JButton[] jr;            // 캐릭터 이미지 저장용 배열 필드
 
 	ClientMsgSend clientMsgSend;
 	ClientMainUI clientMainUI;
@@ -54,12 +57,26 @@ public class ClientInitUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		character_label = new JLabel("    캐릭터");
+		character_label.setHorizontalAlignment(SwingConstants.LEFT);
+		character_label.setFont(new Font("한컴 윤체 B", Font.PLAIN, 15));
+		character_label.setBounds(120, 257, 87, 43);
+		contentPane.add(character_label);
+		
+		character_Name = new JTextArea();
+		character_Name.setFont(new Font("한컴 윤체 B", Font.PLAIN, 15));
+		character_Name.setBounds(212, 266, 178, 21);
+		character_Name.setDisabledTextColor(Color.BLACK);
+		character_Name.setEnabled(false);
+		contentPane.add(character_Name);
+		
 		id_enter = new JLabel("아이디 입력");
 		id_enter.setFont(new Font("한컴 윤체 B", Font.PLAIN, 15));
 		id_enter.setBounds(120, 287, 87, 43);
 		contentPane.add(id_enter);
 
 		userId = new JTextField();
+		userId.setFont(new Font("한컴 윤체 B", Font.PLAIN, 15));
 		userId.setBounds(212, 297, 178, 21);
 		contentPane.add(userId);
 		userId.setColumns(10);
@@ -78,17 +95,15 @@ public class ClientInitUI extends JFrame {
 		btn_Make.setFont(new Font("한컴 윤체 M", Font.PLAIN, 16));
 		btn_Make.setBounds(420, 296, 79, 23);
 		contentPane.add(btn_Make);
-
+		
 		jr = new JButton[3];
 
 		for (int i = 0; i < jr.length; i++) { // 캐릭터 이미지 jr 배열필드에 저장 시키는 for문
 			ActionButtonListener action01 = new ActionButtonListener(i);
 			jr[i] = new JButton(new ImageIcon("images\\" + i + ".jpg"));
-			jr[i].setHorizontalAlignment(SwingConstants.CENTER);
 
 			switch (i) { // 변수 i값 으로 각 캐릭터 버튼의 좌표값을 설정 해 준다.
 			case 0:
-				jr[i].setVerticalAlignment(SwingConstants.BOTTOM); // 왜있는건지는 모르지만 처음부터 있어서 그냥 뒀음.
 				jr[i].setBounds(87, 102, 120, 120);
 				contentPane.add(jr[i]);
 				break;
@@ -117,22 +132,21 @@ public class ClientInitUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(userId == null){
-					System.out.println("아이디를 입력 해 주세요");
+				if(clientMainUI.Player_SelectCharacter == -1 || userId.getText().equals("")){
+					JOptionPane.showMessageDialog(null, "아이디와 캐릭터는 반드시 선택해야 합니다!","님?", JOptionPane.ERROR_MESSAGE);
 				}
 				else{
-				clientMsgSend.Send_Msg(); // 확인 누를때 채팅창에 입장글과 상대 클라이언트에게 입장글
-											// 보여준다
-				clientMsgSend.Send_Info(); // player정보를 패널에 넣어준다
-				clientMainUI.isFirst = false; // 처음입장여부를 아니요로 준다
+				clientMsgSend.Send_Msg();      // 확인 누를때 채팅창에 입장글과 상대 클라이언트에게 입장글을 보여준다
+				clientMsgSend.Send_Info();     // player정보를 패널에 넣어준다
+				clientMainUI.isFirst = false;  // 처음입장여부를 아니요로 준다
 				clientMainUI.setVisible(true); // MainForm창이 뜬다
-				dispose(); // 확인 버튼을 누르면 사라진다
+				dispose();                     // 확인 버튼을 누르면 사라진다
 				}
 			}
 		});
 	}
 
-	static public String getId() { // 스태틱으로 지정해서 어디서든 호출가능
+	static public String getId() {      // 스태틱으로 지정해서 어디서든 호출가능
 		return userId.getText().trim(); // trim()메소드는 공백을 제외한다
 	}
 
@@ -151,14 +165,20 @@ public class ClientInitUI extends JFrame {
 			// TODO Auto-generated method stub
 			switch (Characternumber) {
 			case 0:
+				character_Name.setText("");
+				character_Name.setText("귀엽고 조금한 피글렛!");
 				System.out.println("피그렛사진 눌렸다");
 				clientMainUI.Player_SelectCharacter = 0;
 				break;
 			case 1:
+				character_Name.setText("");
+				character_Name.setText("꿀을 좋아하는 주인공 푸!");
 				System.out.println("푸사진 눌렸다");
 				clientMainUI.Player_SelectCharacter = 1;
 				break;
 			case 2:
+				character_Name.setText("");
+				character_Name.setText("남자답고 늠름한 타이거!");
 				System.out.println("타이거사진 눌렸다");
 				clientMainUI.Player_SelectCharacter = 2;
 				break;
