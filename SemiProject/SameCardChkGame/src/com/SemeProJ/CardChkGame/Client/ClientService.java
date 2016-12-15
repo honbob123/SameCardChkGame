@@ -25,10 +25,8 @@ public class ClientService {
 				
 				clientUI = new ClientMainUI(socket); // 클라이언트 UI 호출
 				
-				ClientMsgReceive cmr1 = new ClientMsgReceive(socket, clientUI);
-				//ClientMsgReceive cmr2 = new ClientMsgReceive(socket, clientUI);				
+				ClientMsgReceive cmr1 = new ClientMsgReceive(socket, clientUI);				
 				cmr1.start();
-				//cmr2.start();
 			}
 		} catch (IOException e) {
 			//서버와 연결 에러났을 때 에러창을  뛰운다

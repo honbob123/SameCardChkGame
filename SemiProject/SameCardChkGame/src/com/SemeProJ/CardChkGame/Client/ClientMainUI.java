@@ -54,15 +54,6 @@ public class ClientMainUI extends JFrame{
 		}
 		for(int i=0; i<Card_Character.length; i++) {   //카드 캐릭터 사진 삽입
 			Card_Character[i] = new ImageIcon("images\\" +i+".png");
-			//image[0] = 0.png
-			//image[1] = 1.png
-			//image[2] = 2.png
-			//image[3] = 3.png
-			//image[4] = 4.png
-			//image[5] = 5.png
-			//image[6] = 6.png
-			//image[7] = 7.png
-			//image[8] = 8.png
 		}
 		clientMsgSend = new ClientMsgSend(this);         //서버로 보내는 클래스 객체 생성
 		new ClientInitUI(clientMsgSend, this);           //ID폼 생성
@@ -184,10 +175,8 @@ public class ClientMainUI extends JFrame{
 		int return_GameArr[] = new int[16];
 		String[] split_return = msg.substring(msg.indexOf(":")+1).split(",");
 		GameButtonActionListener gba;
-		//ClientCardButton[] CardButton = new ClientCardButton[return_GameArr.length];
 		for(int i = 0; i <split_return.length; i++){
 			return_GameArr[i] = Integer.parseInt(split_return[i]);
-			//Panelbtn[i] = new JButton(new ImageIcon("images/"+return_GameArr[i]+".png"));
 			Panelbtn[i] = new JButton(new ImageIcon("images/0.png"));
 			Panelbtn[i].setRolloverEnabled(false);			// 버튼 투명 관련 옵션
 			Panelbtn[i].setOpaque(false);					// 버튼 투명 관련 옵션
@@ -203,20 +192,6 @@ public class ClientMainUI extends JFrame{
 		}
 		GameMain.setOpaque(true);
 		GameMain.setVisible(false);
-		/*String[] split_return = msg.substring(msg.indexOf(":")+1).split(",");
-		int return_GameArr[] = new int[split_return.length];
-		for(int i=0; i<split_return.length; i++) {
-			return_GameArr[i] = Integer.parseInt(split_return[i]);
-		}
-		ClientCardButton[] clientcardButton = new ClientCardButton[split_return.length]; //서버에서온 배열 길이로 카드버튼을 만든다
-		GameButtonActionListener gameButtonActionListener = new GameButtonActionListener(clientcardButton, this);
-		for(int i=0; i<split_return.length; i++) {
-			clientcardButton[i] = new ClientCardButton(Integer.toString(i), return_GameArr[i], Card_Character[return_GameArr[i]], Card_Character[0]);
-			clientcardButton[i].addActionListener(gameButtonActionListener); //버튼마다 이벤트 등록
-			clientcardButton[i].setContentAreaFilled(false);                 //버튼을 사진크기에 맞춘다
-			clientcardButton[i].setBorderPainted(false);                     //테두리를 없앤다
-			GameMain.add(clientcardButton[i]);
-		}*/
 	}
 	
 	public void gameScreenOn(){

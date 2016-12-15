@@ -15,7 +15,6 @@ public class ClientCardButton extends JButton {
 	}
 	
 	public ClientCardButton (String number, int value, ImageIcon cardImage, ImageIcon backcardImage) { //생성자
-		//super(number, backcardImage);
 	    setIcon(backcardImage);
 		this.value = value;
 		this.cardImage = cardImage;
