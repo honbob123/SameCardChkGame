@@ -1,6 +1,7 @@
 package com.SemeProJ.CardChkGame.Client;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -44,6 +45,7 @@ public class ClientMainUI extends JFrame{
 	static public JButton[] Panelbtn = new JButton[16]; // 게임 스크린 버튼
 	Socket socket;
 	ClientMsgSend clientMsgSend;
+	Container cPane;
 	
 	public ClientMainUI(Socket socket) { //생성자
 		this.socket = socket;                          //연결된 소켓 = 메인폼소켓
@@ -54,6 +56,15 @@ public class ClientMainUI extends JFrame{
 		}
 		for(int i=0; i<Card_Character.length; i++) {   //카드 캐릭터 사진 삽입
 			Card_Character[i] = new ImageIcon("images\\" +i+".png");
+			//image[0] = 0.png
+			//image[1] = 1.png
+			//image[2] = 2.png
+			//image[3] = 3.png
+			//image[4] = 4.png
+			//image[5] = 5.png
+			//image[6] = 6.png
+			//image[7] = 7.png
+			//image[8] = 8.png
 		}
 		clientMsgSend = new ClientMsgSend(this);         //서버로 보내는 클래스 객체 생성
 		new ClientInitUI(clientMsgSend, this);           //ID폼 생성
@@ -92,7 +103,7 @@ public class ClientMainUI extends JFrame{
 		Player1.add(Player1_Id);
 		
 		Player1_Img = new JLabel("");
-		Player1_Img.setBounds(12, 36, 120, 120);
+		Player1_Img.setBounds(12, 23, 120,120);
 		Player1.add(Player1_Img);
 		
 		Player1_Score = new JLabel("");
@@ -128,7 +139,7 @@ public class ClientMainUI extends JFrame{
 		Player2.add(Player2_Id);
 		
 		Player2_Img = new JLabel("");
-		Player2_Img.setBounds(12, 36, 120, 120);
+		Player2_Img.setBounds(12, 23, 120, 120);
 		Player2.add(Player2_Img);
 		
 		Player2_Score = new JLabel("");
@@ -145,6 +156,18 @@ public class ClientMainUI extends JFrame{
 		Timer.setBackground(Color.DARK_GRAY);
 		Timer.setBounds(12, 10, 661, 71);
 		contentPane.add(Timer);
+		
+		ImageIcon icon;
+		JLabel image;
+		
+		cPane = getContentPane();
+		cPane.setLayout(null);
+		
+		icon = new ImageIcon("images/eyeBBong.jpg");
+		image = new JLabel(icon);
+		
+		image.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
+		cPane.add(image);
 				
 		setVisible(false);
 		setResizable(false);
@@ -192,10 +215,26 @@ public class ClientMainUI extends JFrame{
 		}
 		GameMain.setOpaque(true);
 		GameMain.setVisible(false);
+		/*String[] split_return = msg.substring(msg.indexOf(":")+1).split(",");
+		int return_GameArr[] = new int[split_return.length];
+		for(int i=0; i<split_return.length; i++) {
+			return_GameArr[i] = Integer.parseInt(split_return[i]);
+		}
+		ClientCardButton[] clientcardButton = new ClientCardButton[split_return.length]; //서버에서온 배열 길이로 카드버튼을 만든다
+		GameButtonActionListener gameButtonActionListener = new GameButtonActionListener(clientcardButton, this);
+		for(int i=0; i<split_return.length; i++) {
+			clientcardButton[i] = new ClientCardButton(Integer.toString(i), return_GameArr[i], Card_Character[return_GameArr[i]], Card_Character[0]);
+			clientcardButton[i].addActionListener(gameButtonActionListener); //버튼마다 이벤트 등록
+			clientcardButton[i].setContentAreaFilled(false);                 //버튼을 사진크기에 맞춘다
+			clientcardButton[i].setBorderPainted(false);                     //테두리를 없앤다
+			GameMain.add(clientcardButton[i]);
+		}*/
 	}
 	
 	public void gameScreenOn(){
 		GameMain.setVisible(true);
 	}
-	
+	public void gameScreenOff(){
+		GameMain.setVisible(false);
+	}
 }

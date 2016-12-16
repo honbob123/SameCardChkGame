@@ -36,7 +36,15 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 					else if(msg.substring(0, 9).equals("Game_stop")) Print_No(msg);
 					else if(msg.substring(0, 9).equals("Game_play")) Print_Yes(msg);
 					else if(msg.substring(1, 10).equals("Send_Info")) Print_Info(msg);                           //정보 출력 메소드
-					else if(msg.substring(0, 10).equals("Send_Start")) Print_Start(msg);                    //게임 시작 메소드
+					else if(msg.substring(0, 10).equals("Send_Start")){
+						Print_Start(msg);                    //게임 시작 메소드
+						if(msg.endsWith("1")) {
+							turnOn();   //게임 시작 메소드
+						}else{
+							turnOff();
+						}
+					}
+					else if(msg.substring(0, 8).equals("Send_End")) Print_End(msg);
 					else if(msg.substring(0, 10).equals("Game_Array")) clientMainUI.gameScreen(msg);	    //게임 배열 받아서 UI로 보내는 부분
 					else if(msg.substring(0, 14).equals("Go_to_the_hell")) Print_Out(msg);                  //플레이어가 나갔을 때 해당 플레이어 정보만 삭제 메소드
 					else if(msg.substring(0, 20).equals("Game_Score_and_Array")) gameScreenDel(msg);		// 상대편이 보낸 정답 부분 gameScreenDel로 보냄
@@ -57,9 +65,18 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 	}
 	private void Print_Yes(String msg) {
 		System.out.println("게임해");
-		for(int i=0; i<16; i++) {
-			clientMainUI.Panelbtn[i].setEnabled(true);
+		String test = clientMainUI.Panelbtn[0].getIcon().toString();
+		System.out.println("문자열 : " + test + " ture or false : " + test.equals("images/0.png"));
+		for(int i = 0; i < 16 ; i++){
+			test = clientMainUI.Panelbtn[i].getIcon().toString();
+			System.out.println(i + "번째 버튼 getIcon : " + clientMainUI.Panelbtn[i].getIcon());
+			if(test.equals("images/0.png")){
+				clientMainUI.Panelbtn[i].setEnabled(true);
+			}
 		}
+		/*for(int i=0; i<16; i++) {
+			clientMainUI.Panelbtn[i].setEnabled(true);
+		}*/
 	}
 	private void Print_No(String msg) {
 		System.out.println("게임못해");
@@ -79,6 +96,12 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 		}
 		clientMainUI.textA.append("게임 시작!!" + "\n");
 		clientMainUI.gameScreenOn(); //게임메인화면에 카드 보이게 하는 메소드
+	}
+	
+	private void Print_End(String msg) { //게임시작 메소드
+		clientMainUI.textA.append("게임 종료!!" + "\n");
+		clientMainUI.gameScreenOff();
+		//메인폼 게임화면에 카드 출력
 	}
 	
 	private void Print_Info(String msg) { //정보출력 메소드
@@ -147,5 +170,16 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 		setbtnIcon = new ImageIcon("images/"+ ClientMainUI.Panelbtn[GameArrDel2].getName() +".png");
 		ClientMainUI.Panelbtn[GameArrDel2].setIcon(setbtnIcon);
 		ClientMainUI.Panelbtn[GameArrDel2].setEnabled(false);
+	}
+	public void turnOn(){
+		for(int j = 0; j < 16; j++){
+			clientMainUI.Panelbtn[j].setEnabled(true);
+		}
+	}
+	
+	public void turnOff(){
+		for(int j = 0; j < 16; j++){
+			clientMainUI.Panelbtn[j].setEnabled(false);
+		}
 	}
 }

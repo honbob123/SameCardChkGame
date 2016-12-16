@@ -17,6 +17,8 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 	private BufferedReader bufferedReader = null;
 	//private PrintWriter printWriter = null; (쓸 필요가 없다)
 	private int [] arr = new int[16];
+	int turntoChk = 0;
+	static int Score = 0;
 	
 	public ServerMsgRxtoTX(Socket socket, Vector<Socket> socket_vec,Vector<String> Info_vec) { //생성자
 		this.client_socekt = socket;
@@ -57,6 +59,10 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 					}
 					else if(msg.substring(0, 20).equals("Game_Score_and_Array")) {
 						Send_GameInfo(msg);
+						Score++;
+						if(Score == 8){
+							Send_End();
+						}
 					}
 				}else //클라이언트가 나갔을 때 while문을 빠져 나간다
 					
@@ -110,9 +116,21 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 			PrintWriter printWriter;
 			try {
 				printWriter = new PrintWriter(socket.getOutputStream(), true);
-				printWriter.println("Send_Start" + "5초 후에 게임이 시작됩니다!");
+				printWriter.println("Send_Start" + "5초 후에 게임이 시작됩니다!" + turntoChk++);
 			} catch (IOException e) {}
 		}
+	}
+	private void Send_End() {
+		try{
+			
+		}catch (Exception f) {}
+		for(Socket socket : socket_vec) {
+			PrintWriter printWriter;
+			try {
+				printWriter = new PrintWriter(socket.getOutputStream(), true);
+				printWriter.println("Send_End TestMsgSend");
+			} catch (Exception e) {}
+		} 
 	}
 	
 	private void Send_Info(String msg) {  //클라이언트한테 플레이어 정보 보내는 메소드

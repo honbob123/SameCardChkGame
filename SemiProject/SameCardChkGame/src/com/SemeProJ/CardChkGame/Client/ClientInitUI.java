@@ -42,7 +42,7 @@ public class ClientInitUI extends JFrame {
 	}
 
 	private void init() { // ID폼 화면 생성 메소드
-		setBackground(new Color(224, 255, 255));
+		setBackground(new Color(177, 205, 255));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("images\\atomicbearpink.png"));
 		// 윈도우창  좌상단 아이콘 변경	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,7 +52,7 @@ public class ClientInitUI extends JFrame {
 		setTitle("아이디 생성");
 		setBounds(100, 100, 632, 374);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(255, 20, 147));
+		contentPane.setBackground(new Color(177, 205, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -91,7 +91,7 @@ public class ClientInitUI extends JFrame {
 		btn_Make = new JButton("확인");
 		btn_Make.setToolTipText("");
 		btn_Make.setForeground(new Color(0, 0, 0));
-		btn_Make.setBackground(new Color(255, 0, 255));
+		btn_Make.setBackground(new Color(177, 205, 255));
 		btn_Make.setFont(new Font("한컴 윤체 M", Font.PLAIN, 16));
 		btn_Make.setBounds(420, 296, 79, 23);
 		contentPane.add(btn_Make);
