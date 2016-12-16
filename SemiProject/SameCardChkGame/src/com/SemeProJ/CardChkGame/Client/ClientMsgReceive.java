@@ -102,7 +102,7 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 		clientMainUI.textA.append("게임 종료!!" + "\n");
 		clientMainUI.gameScreenOff();
 		//메인폼 게임화면에 카드 출력
-	}
+	}                                   
 	
 	private void Print_Info(String msg) { //정보출력 메소드
 		clientMainUI.Player2_Id.setText("");

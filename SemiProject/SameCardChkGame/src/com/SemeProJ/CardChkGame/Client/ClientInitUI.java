@@ -91,7 +91,7 @@ public class ClientInitUI extends JFrame {
 		btn_Make = new JButton("확인");
 		btn_Make.setToolTipText("");
 		btn_Make.setForeground(new Color(0, 0, 0));
-		btn_Make.setBackground(new Color(177, 205, 255));
+		btn_Make.setBackground(new Color(177, 255, 255));
 		btn_Make.setFont(new Font("한컴 윤체 M", Font.PLAIN, 16));
 		btn_Make.setBounds(420, 296, 79, 23);
 		contentPane.add(btn_Make);

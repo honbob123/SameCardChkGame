@@ -103,7 +103,7 @@ public class ClientMainUI extends JFrame{
 		Player1.add(Player1_Id);
 		
 		Player1_Img = new JLabel("");
-		Player1_Img.setBounds(12, 23, 120,120);
+		Player1_Img.setBounds(12, 23, 120, 120);
 		Player1.add(Player1_Img);
 		
 		Player1_Score = new JLabel("");
@@ -123,6 +123,7 @@ public class ClientMainUI extends JFrame{
 	    scroll.setBorder(null);
 	    textA.setFont(new Font("Monospaced", Font.PLAIN, 14));
 	    textA.setDisabledTextColor(Color.BLACK);
+	    textA.setLineWrap(true); // 채팅글이 창 범위를 넘어가면 자동 줄 바꿈
 	    DefaultCaret caret = (DefaultCaret) textA.getCaret();	// 채팅스크롤 가장 밑으로 옮기는 부분
 	    caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);	    // 위와 동일
 	    contentPane.add(scroll);
@@ -198,8 +199,10 @@ public class ClientMainUI extends JFrame{
 		int return_GameArr[] = new int[16];
 		String[] split_return = msg.substring(msg.indexOf(":")+1).split(",");
 		GameButtonActionListener gba;
+		//ClientCardButton[] CardButton = new ClientCardButton[return_GameArr.length];
 		for(int i = 0; i <split_return.length; i++){
 			return_GameArr[i] = Integer.parseInt(split_return[i]);
+			//Panelbtn[i] = new JButton(new ImageIcon("images/"+return_GameArr[i]+".png"));
 			Panelbtn[i] = new JButton(new ImageIcon("images/0.png"));
 			Panelbtn[i].setRolloverEnabled(false);			// 버튼 투명 관련 옵션
 			Panelbtn[i].setOpaque(false);					// 버튼 투명 관련 옵션

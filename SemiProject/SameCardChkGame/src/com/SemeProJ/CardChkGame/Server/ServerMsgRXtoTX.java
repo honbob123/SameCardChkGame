@@ -20,6 +20,7 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 	int turntoChk = 0;
 	static int Score = 0;
 	
+	
 	public ServerMsgRxtoTX(Socket socket, Vector<Socket> socket_vec,Vector<String> Info_vec) { //생성자
 		this.client_socekt = socket;
 		this.socket_vec = socket_vec;
@@ -117,12 +118,14 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 			try {
 				printWriter = new PrintWriter(socket.getOutputStream(), true);
 				printWriter.println("Send_Start" + "5초 후에 게임이 시작됩니다!" + turntoChk++);
+				
 			} catch (IOException e) {}
 		}
+		turntoChk = 0;
 	}
 	private void Send_End() {
 		try{
-			
+			Score = 0;
 		}catch (Exception f) {}
 		for(Socket socket : socket_vec) {
 			PrintWriter printWriter;
