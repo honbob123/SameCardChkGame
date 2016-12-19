@@ -18,8 +18,8 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 	//private PrintWriter printWriter = null; (쓸 필요가 없다)
 	private int [] arr = new int[16];
 	int turntoChk = 0;
-	static int Score = 0;
-	
+	static int end = 0;
+	static int score1 = 0, score2 = 0;
 	
 	public ServerMsgRxtoTX(Socket socket, Vector<Socket> socket_vec,Vector<String> Info_vec) { //생성자
 		this.client_socekt = socket;
@@ -60,10 +60,7 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 					}
 					else if(msg.substring(0, 20).equals("Game_Score_and_Array")) {
 						Send_GameInfo(msg);
-						Score++;
-						if(Score == 8){
-							Send_End();
-						}
+						Send_GameResult(msg);
 					}
 				}else //클라이언트가 나갔을 때 while문을 빠져 나간다
 					
@@ -82,6 +79,45 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 				if(client_socekt != null) client_socekt.close();      //소켓을 닫는다
 				System.out.println("Server 종료2");
 			} catch (IOException e) {}
+		}
+	}
+	
+	private void Send_GameResult(String msg) {
+		String [] split_End = msg.substring(21).split(",");
+		String id = split_End[0]; //맞춘 id
+		if(id.equals(Info_vec.get(0).substring(1))) score1++; //플1이 맞추면 
+		else if (id.equals(Info_vec.get(1).substring(1))) score2++; //플2가 맞추면
+		end++;
+		System.out.println(end + " " + score1 + " " + score2);
+		if(end == 8) { //정답을 다 맞췄을 때
+			PrintWriter printWriter;
+			try {
+				if(score1 > score2) {
+					Socket socket_player1 = socket_vec.get(0);
+					Socket socket_player2 = socket_vec.get(1);
+					printWriter = new PrintWriter(socket_player1.getOutputStream(), true);
+					printWriter.println("Game_Win");
+					printWriter = new PrintWriter(socket_player2.getOutputStream(), true);
+					printWriter.println("Game_Lose");
+				}
+				else if(score1 < score2) {
+					Socket socket_player1 = socket_vec.get(0);
+					Socket socket_player2 = socket_vec.get(1);
+					printWriter = new PrintWriter(socket_player1.getOutputStream(), true);
+					printWriter.println("Game_Lose");
+					printWriter = new PrintWriter(socket_player2.getOutputStream(), true);
+					printWriter.println("Game_Win");
+				}
+				else { //비겼을 때 모든 플레이어 나가진다
+					for(Socket socket : socket_vec) {
+						printWriter = new PrintWriter(socket.getOutputStream(), true);
+						printWriter.println("Game_Draw");
+					}
+				}
+			} catch (IOException e) {}
+			end=0;
+			score1=0;
+			score2=0;
 		}
 	}
 	
@@ -118,14 +154,12 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 			try {
 				printWriter = new PrintWriter(socket.getOutputStream(), true);
 				printWriter.println("Send_Start" + "5초 후에 게임이 시작됩니다!" + turntoChk++);
-				
 			} catch (IOException e) {}
 		}
-		turntoChk = 0;
 	}
 	private void Send_End() {
 		try{
-			Score = 0;
+			
 		}catch (Exception f) {}
 		for(Socket socket : socket_vec) {
 			PrintWriter printWriter;
@@ -166,10 +200,8 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 					JOptionPane.showMessageDialog(null, "스트림 설정 에러!","에러창", JOptionPane.ERROR_MESSAGE);
 					System.out.println("클라이언트한테 메시지 보내는 에러");
 				}
-				
 			}
 		}	
-		
 	}
 	
 	private void Send_Out(String Id) { //클라이언트한테 플레이어가 나갔을 때 정보 삭제하는 메소드

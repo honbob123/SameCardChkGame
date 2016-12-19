@@ -11,12 +11,10 @@ public class ClientService {
 	public static final long time = System.currentTimeMillis();
 	
 	public static void main(String[] args) {
-		
 		Socket socket;
 		ClientMainUI clientUI;
-
+		
 		try {
-
 			socket = new Socket(SERVER_IP_ADDR, SERVER_PORT);
 			if(socket != null) {
 				System.out.println("서버 주소 : " + SERVER_IP_ADDR);

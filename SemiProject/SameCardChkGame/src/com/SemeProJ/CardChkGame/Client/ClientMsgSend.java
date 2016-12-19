@@ -46,6 +46,7 @@ class ClientMsgSend { //서버로 전송하는 클래스
 	}
  
 	public void Send_Msg() { //서버로 채팅 메시지 보내는 메소드
+		
 		String msg = null;
 		if(clientMainUI.isFirst == true) { //처음 연결됬는지 여부
 			getId();
@@ -53,7 +54,8 @@ class ClientMsgSend { //서버로 전송하는 클래스
 			InetAddress iaddr = socket.getLocalAddress();
 			String ip = iaddr.getHostAddress();
 			System.out.println("IP : " + ip + " ID : " + id); //상대 ID와 IP 콘솔 출력
-			
+			clientMainUI.turn_view.setText(id + " 님 환영합니다");
+			clientMainUI.turn_view.setVisible(true);
 			msg = "Send_Chat" + id + "님이 로그인했습니다"; //처음 입장시 서버로 보내서 다른 클라이언트에게 보내는 메시지
 			clientMainUI.textA.append(id + "님이 로그인했습니다" + "\n");
 		}else

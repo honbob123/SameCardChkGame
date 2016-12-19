@@ -32,7 +32,21 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 				String msg = null;
 				msg = bufferedReader.readLine(); //소켓으로부터 메시지를 읽는다
 				if(msg != null) {
-					if(msg.substring(0, 9).equals("Send_Chat")) Print_Msg(msg);                        //채팅 출력 메소드
+					if (msg.substring(0, 8).equals("Game_Win")) {
+						JOptionPane.showMessageDialog(null, "승리 하였습니다!연승에 도전하세요","승리", JOptionPane.ERROR_MESSAGE);
+						clientMainUI.GameMain.removeAll(); //게임메인화면 버튼 삭제
+						clientMainUI.score1 =0; //
+						clientMainUI.score2= 0;
+					}
+					else if (msg.substring(0, 9).equals("Game_Lose")) {
+						JOptionPane.showMessageDialog(null, "루저~외톨이~상처받은 겁쟁이~","패배", JOptionPane.ERROR_MESSAGE);
+						System.exit(0);
+					}
+					else if (msg.substring(0, 9).equals("Game_Draw")) {
+						JOptionPane.showMessageDialog(null, "무승부입니다~","무승부", JOptionPane.ERROR_MESSAGE);
+						System.exit(0);
+					}
+					else if(msg.substring(0, 9).equals("Send_Chat")) Print_Msg(msg);                        //채팅 출력 메소드
 					else if(msg.substring(0, 9).equals("Game_stop")) Print_No(msg);
 					else if(msg.substring(0, 9).equals("Game_play")) Print_Yes(msg);
 					else if(msg.substring(1, 10).equals("Send_Info")) Print_Info(msg);                           //정보 출력 메소드
@@ -63,7 +77,10 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 			}
 		}
 	}
+	
 	private void Print_Yes(String msg) {
+		clientMainUI.turn_view.setText("당신 차례입니다.");
+		clientMainUI.turn_view.setVisible(true);
 		System.out.println("게임해");
 		String test = clientMainUI.Panelbtn[0].getIcon().toString();
 		System.out.println("문자열 : " + test + " ture or false : " + test.equals("images/0.png"));
@@ -74,11 +91,10 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 				clientMainUI.Panelbtn[i].setEnabled(true);
 			}
 		}
-		/*for(int i=0; i<16; i++) {
-			clientMainUI.Panelbtn[i].setEnabled(true);
-		}*/
 	}
+	
 	private void Print_No(String msg) {
+		clientMainUI.turn_view.setVisible(false);
 		System.out.println("게임못해");
 		for(int i=0; i<16; i++) {
 			clientMainUI.Panelbtn[i].setEnabled(false);
@@ -102,17 +118,19 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 		clientMainUI.textA.append("게임 종료!!" + "\n");
 		clientMainUI.gameScreenOff();
 		//메인폼 게임화면에 카드 출력
-	}                                   
+	}
 	
 	private void Print_Info(String msg) { //정보출력 메소드
 		clientMainUI.Player2_Id.setText("");
 		clientMainUI.Player2_Img.setIcon(null);
 		clientMainUI.Player2_Score.setText("");
+		
 		switch(msg.charAt(0)) {
 			case '0':  {
 				int i = Integer.parseInt(msg.substring(11, 12));
 				clientMainUI.Player1_Img.setIcon(clientMainUI.Player_Character[i]);
 				clientMainUI.Player1_Id.setText(msg.substring(12));
+				clientMainUI.Player1_Score.setText("0");
 				break;
 			}
 			case '1': {
@@ -120,9 +138,11 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 				if(clientMainUI.Player1_Id.getText().equals("")) { //플1에 사람이 없을 때 플1에다가 정보출력
 					clientMainUI.Player1_Img.setIcon(clientMainUI.Player_Character[i]);
 					clientMainUI.Player1_Id.setText(msg.substring(12));
+					clientMainUI.Player1_Score.setText("0");
 				}else if(clientMainUI.Player2_Id.getText().equals("")) { //플2에 사람이 없을 때 플2에다가 정보출력
 					clientMainUI.Player2_Img.setIcon(clientMainUI.Player_Character[i]);
 					clientMainUI.Player2_Id.setText(msg.substring(12));
+					clientMainUI.Player2_Score.setText("0");
 				}
 				break;
 			}
@@ -171,13 +191,17 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 		ClientMainUI.Panelbtn[GameArrDel2].setIcon(setbtnIcon);
 		ClientMainUI.Panelbtn[GameArrDel2].setEnabled(false);
 	}
-	public void turnOn(){
+	
+	private void turnOn(){
+		clientMainUI.turn_view.setText("당신 차례입니다.");
+		clientMainUI.turn_view.setVisible(true);
 		for(int j = 0; j < 16; j++){
 			clientMainUI.Panelbtn[j].setEnabled(true);
 		}
 	}
 	
-	public void turnOff(){
+	private void turnOff(){
+		clientMainUI.turn_view.setVisible(false);
 		for(int j = 0; j < 16; j++){
 			clientMainUI.Panelbtn[j].setEnabled(false);
 		}

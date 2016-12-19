@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.TextArea;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -47,12 +48,14 @@ public class ClientMainUI extends JFrame{
 	ClientMsgSend clientMsgSend;
 	Container cPane;
 	
+	public JTextArea turn_view;
+	
 	public ClientMainUI(Socket socket) { //생성자
 		this.socket = socket;                          //연결된 소켓 = 메인폼소켓
 		Player_Character = new ImageIcon[3];           //플레이어 캐릭터사진을 배열로 담는다
 		Card_Character = new ImageIcon[9];             //게임 카드사진을 배열로 담는다
 		for(int i=0; i<Player_Character.length; i++) { //플레이어 캐릭터 사진 삽입
-			Player_Character[i] = new ImageIcon("images\\"+i+".jpg");
+			Player_Character[i] = new ImageIcon("images\\c_"+i+".png");
 		}
 		for(int i=0; i<Card_Character.length; i++) {   //카드 캐릭터 사진 삽입
 			Card_Character[i] = new ImageIcon("images\\" +i+".png");
@@ -94,11 +97,14 @@ public class ClientMainUI extends JFrame{
 		
 		Player1 = new JPanel();
 		Player1.setBounds(685, 10, 326, 163);
+		//Player1.setBackground(Color.WHITE);
+		Player1.setOpaque(false);
 		contentPane.add(Player1);
 		Player1.setLayout(null);
 		
 		Player1_Id = new JLabel("");
 		Player1_Id.setFont(new Font("휴먼둥근헤드라인", Font.PLAIN, 16));
+		Player1_Id.setForeground(Color.WHITE);
 		Player1_Id.setBounds(157, 44, 143, 41);
 		Player1.add(Player1_Id);
 		
@@ -108,6 +114,7 @@ public class ClientMainUI extends JFrame{
 		
 		Player1_Score = new JLabel("");
 		Player1_Score.setFont(new Font("휴먼둥근헤드라인", Font.PLAIN, 16));
+		Player1_Id.setForeground(Color.WHITE);
 		Player1_Score.setBounds(157, 98, 143, 41);
 		Player1.add(Player1_Score);
 		
@@ -121,9 +128,9 @@ public class ClientMainUI extends JFrame{
 	    scroll.setBounds(685, 356, 326, 365);
 	    textA.setEnabled(false);
 	    scroll.setBorder(null);
+	    textA.setLineWrap(true);
 	    textA.setFont(new Font("Monospaced", Font.PLAIN, 14));
 	    textA.setDisabledTextColor(Color.BLACK);
-	    textA.setLineWrap(true); // 채팅글이 창 범위를 넘어가면 자동 줄 바꿈
 	    DefaultCaret caret = (DefaultCaret) textA.getCaret();	// 채팅스크롤 가장 밑으로 옮기는 부분
 	    caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);	    // 위와 동일
 	    contentPane.add(scroll);
@@ -131,20 +138,24 @@ public class ClientMainUI extends JFrame{
 		
 		Player2 = new JPanel();
 		Player2.setLayout(null);
+		//0Player2.setBackground(Color.WHITE);
+		Player2.setOpaque(false);
 		Player2.setBounds(685, 183, 326, 163);
 		contentPane.add(Player2);
 		
 		Player2_Id = new JLabel("");
 		Player2_Id.setFont(new Font("휴먼둥근헤드라인", Font.PLAIN, 16));
+		Player2_Id.setForeground(Color.WHITE);
 		Player2_Id.setBounds(157, 44, 143, 41);
 		Player2.add(Player2_Id);
 		
 		Player2_Img = new JLabel("");
-		Player2_Img.setBounds(12, 23, 120, 120);
+		Player2_Img.setBounds(12, 36, 120, 120);
 		Player2.add(Player2_Img);
 		
 		Player2_Score = new JLabel("");
 		Player2_Score.setFont(new Font("휴먼둥근헤드라인", Font.PLAIN, 16));
+		Player2_Score.setForeground(Color.WHITE);
 		Player2_Score.setBounds(157, 98, 143, 41);
 		Player2.add(Player2_Score);
 		
@@ -153,8 +164,16 @@ public class ClientMainUI extends JFrame{
 		GameMain.setBounds(12, 91, 661, 661);
 		contentPane.add(GameMain);
 		
+		turn_view = new JTextArea();
+		turn_view.setText("당신 차례입니다.");
+		turn_view.setOpaque(false);
+		turn_view.setFont(new Font("휴먼둥근헤드라인", Font.PLAIN, 50));
+		turn_view.setEnabled(false);
+		turn_view.setVisible(false);
 		Timer = new JPanel();
-		Timer.setBackground(Color.DARK_GRAY);
+		//Timer.setBackground(Color.DARK_GRAY);
+		Timer.setOpaque(false);
+		Timer.add(turn_view);
 		Timer.setBounds(12, 10, 661, 71);
 		contentPane.add(Timer);
 		
@@ -203,7 +222,7 @@ public class ClientMainUI extends JFrame{
 		for(int i = 0; i <split_return.length; i++){
 			return_GameArr[i] = Integer.parseInt(split_return[i]);
 			//Panelbtn[i] = new JButton(new ImageIcon("images/"+return_GameArr[i]+".png"));
-			Panelbtn[i] = new JButton(new ImageIcon("images/0.png"));
+			Panelbtn[i] = new JButton(new ImageIcon("images/card.png"));
 			Panelbtn[i].setRolloverEnabled(false);			// 버튼 투명 관련 옵션
 			Panelbtn[i].setOpaque(false);					// 버튼 투명 관련 옵션
 	      	Panelbtn[i].setFocusPainted(false);				// 버튼 투명 관련 옵션

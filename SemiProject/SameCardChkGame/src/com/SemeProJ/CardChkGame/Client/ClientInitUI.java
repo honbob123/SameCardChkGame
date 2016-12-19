@@ -42,7 +42,7 @@ public class ClientInitUI extends JFrame {
 	}
 
 	private void init() { // ID폼 화면 생성 메소드
-		setBackground(new Color(177, 205, 255));
+		setBackground(new Color(224, 255, 255));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("images\\atomicbearpink.png"));
 		// 윈도우창  좌상단 아이콘 변경	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -91,7 +91,7 @@ public class ClientInitUI extends JFrame {
 		btn_Make = new JButton("확인");
 		btn_Make.setToolTipText("");
 		btn_Make.setForeground(new Color(0, 0, 0));
-		btn_Make.setBackground(new Color(177, 255, 255));
+		btn_Make.setBackground(new Color(177, 205, 255));
 		btn_Make.setFont(new Font("한컴 윤체 M", Font.PLAIN, 16));
 		btn_Make.setBounds(420, 296, 79, 23);
 		contentPane.add(btn_Make);
@@ -100,19 +100,34 @@ public class ClientInitUI extends JFrame {
 
 		for (int i = 0; i < jr.length; i++) { // 캐릭터 이미지 jr 배열필드에 저장 시키는 for문
 			ActionButtonListener action01 = new ActionButtonListener(i);
-			jr[i] = new JButton(new ImageIcon("images\\" + i + ".jpg"));
+			jr[i] = new JButton(new ImageIcon("images\\c_" + i + ".png"));
 
 			switch (i) { // 변수 i값 으로 각 캐릭터 버튼의 좌표값을 설정 해 준다.
 			case 0:
 				jr[i].setBounds(87, 102, 120, 120);
+				jr[i].setOpaque(false);
+				jr[i].setFocusable(false);
+				jr[i].setContentAreaFilled(false);
+				jr[i].setBorderPainted(false);
+				jr[i].setRolloverEnabled(false);
 				contentPane.add(jr[i]);
 				break;
 			case 1:
 				jr[i].setBounds(398, 102, 120, 120);
+				jr[i].setOpaque(false);
+				jr[i].setFocusable(false);
+				jr[i].setContentAreaFilled(false);
+				jr[i].setBorderPainted(false);
+				jr[i].setRolloverEnabled(false);
 				contentPane.add(jr[i]);
 				break;
 			case 2:
 				jr[i].setBounds(243, 102, 120, 120);
+				jr[i].setOpaque(false);
+				jr[i].setFocusable(false);
+				jr[i].setContentAreaFilled(false);
+				jr[i].setBorderPainted(false);
+				jr[i].setRolloverEnabled(false);
 				contentPane.add(jr[i]);
 				break;
 			}
