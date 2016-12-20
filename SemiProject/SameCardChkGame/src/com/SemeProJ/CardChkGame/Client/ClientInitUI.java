@@ -19,6 +19,10 @@ import javax.swing.border.EmptyBorder;
 
 public class ClientInitUI extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;      // 컨텐트 팬
 	static JTextField userId;        // 아이디 입력 창
 	private JLabel character_choice; // 캐럭터 선택 레이블
@@ -31,8 +35,7 @@ public class ClientInitUI extends JFrame {
 	ClientMsgSend clientMsgSend;
 	ClientMainUI clientMainUI;
 
-	public ClientInitUI() {
-	}
+	public ClientInitUI() {}
 
 	public ClientInitUI(ClientMsgSend clientMsgSend, ClientMainUI clientMainUI) { // 생성자
 		this.clientMsgSend = clientMsgSend;

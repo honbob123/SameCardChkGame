@@ -4,10 +4,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.TextArea;
 import java.awt.Toolkit;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.Socket;
@@ -24,6 +21,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
  
 public class ClientMainUI extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel contentPane;
 	JPanel GameMain;                       //게임 화면
 	JPanel Timer;                          //타이머

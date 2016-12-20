@@ -157,18 +157,6 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 			} catch (IOException e) {}
 		}
 	}
-	private void Send_End() {
-		try{
-			
-		}catch (Exception f) {}
-		for(Socket socket : socket_vec) {
-			PrintWriter printWriter;
-			try {
-				printWriter = new PrintWriter(socket.getOutputStream(), true);
-				printWriter.println("Send_End TestMsgSend");
-			} catch (Exception e) {}
-		} 
-	}
 	
 	private void Send_Info(String msg) {  //클라이언트한테 플레이어 정보 보내는 메소드
 		Info_vec.add(msg.substring(10));  //벡터에 순서대로 이미지순서,ID 삽입

@@ -85,13 +85,13 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 		clientMainUI.turn_view.setText("당신 차례입니다.");
 		clientMainUI.turn_view.setVisible(true);
 		System.out.println("게임해");
-		String test = clientMainUI.Panelbtn[0].getIcon().toString();
+		String test = ClientMainUI.Panelbtn[0].getIcon().toString();
 		System.out.println("문자열 : " + test + " ture or false : " + test.equals("images/card.png"));
 		for(int i = 0; i < 16 ; i++){
-			test = clientMainUI.Panelbtn[i].getIcon().toString();
-			System.out.println(i + "번째 버튼 getIcon : " + clientMainUI.Panelbtn[i].getIcon());
+			test = ClientMainUI.Panelbtn[i].getIcon().toString();
+			System.out.println(i + "번째 버튼 getIcon : " + ClientMainUI.Panelbtn[i].getIcon());
 			if(test.equals("images/card.png")){
-				clientMainUI.Panelbtn[i].setEnabled(true);
+				ClientMainUI.Panelbtn[i].setEnabled(true);
 			}
 		}
 	}
@@ -100,12 +100,12 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 		clientMainUI.turn_view.setVisible(false);
 		System.out.println("게임못해");
 		for(int i=0; i<16; i++) {
-			clientMainUI.Panelbtn[i].setEnabled(false);
+			ClientMainUI.Panelbtn[i].setEnabled(false);
 		}
 	}
 	
 	private void Print_Start(String msg) { //게임시작 메소드
-		clientMainUI.textA.append(msg.substring(10) + "\n");
+		clientMainUI.textA.append(msg.substring(10, 26) + "\n");
 		clientMainUI.textF.setEnabled(false);
 		for(int i=5; i>0; i--) {
 			try {
@@ -201,14 +201,14 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 		clientMainUI.turn_view.setText("당신 차례입니다.");
 		clientMainUI.turn_view.setVisible(true);
 		for(int j = 0; j < 16; j++){
-			clientMainUI.Panelbtn[j].setEnabled(true);
+			ClientMainUI.Panelbtn[j].setEnabled(true);
 		}
 	}
 	
 	private void turnOff(){
 		clientMainUI.turn_view.setVisible(false);
 		for(int j = 0; j < 16; j++){
-			clientMainUI.Panelbtn[j].setEnabled(false);
+			ClientMainUI.Panelbtn[j].setEnabled(false);
 		}
 	}
 }
