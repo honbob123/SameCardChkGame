@@ -33,16 +33,19 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 				msg = bufferedReader.readLine(); //소켓으로부터 메시지를 읽는다
 				if(msg != null) {
 					if (msg.substring(0, 8).equals("Game_Win")) {
+						clientMainUI.turn_view.setText("승리하였습니다!");
 						JOptionPane.showMessageDialog(null, "승리 하였습니다!연승에 도전하세요","승리", JOptionPane.ERROR_MESSAGE);
 						clientMainUI.GameMain.removeAll(); //게임메인화면 버튼 삭제
 						clientMainUI.score1 =0; //
 						clientMainUI.score2= 0;
 					}
 					else if (msg.substring(0, 9).equals("Game_Lose")) {
+						clientMainUI.turn_view.setText("패배하였습니다.");
 						JOptionPane.showMessageDialog(null, "루저~외톨이~상처받은 겁쟁이~","패배", JOptionPane.ERROR_MESSAGE);
 						System.exit(0);
 					}
 					else if (msg.substring(0, 9).equals("Game_Draw")) {
+						clientMainUI.turn_view.setText("무승부!");
 						JOptionPane.showMessageDialog(null, "무승부입니다~","무승부", JOptionPane.ERROR_MESSAGE);
 						System.exit(0);
 					}
@@ -83,11 +86,11 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 		clientMainUI.turn_view.setVisible(true);
 		System.out.println("게임해");
 		String test = clientMainUI.Panelbtn[0].getIcon().toString();
-		System.out.println("문자열 : " + test + " ture or false : " + test.equals("images/0.png"));
+		System.out.println("문자열 : " + test + " ture or false : " + test.equals("images/card.png"));
 		for(int i = 0; i < 16 ; i++){
 			test = clientMainUI.Panelbtn[i].getIcon().toString();
 			System.out.println(i + "번째 버튼 getIcon : " + clientMainUI.Panelbtn[i].getIcon());
-			if(test.equals("images/0.png")){
+			if(test.equals("images/card.png")){
 				clientMainUI.Panelbtn[i].setEnabled(true);
 			}
 		}

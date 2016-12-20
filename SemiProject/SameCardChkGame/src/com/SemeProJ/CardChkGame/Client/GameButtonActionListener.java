@@ -31,7 +31,7 @@ public class GameButtonActionListener implements ActionListener {
 	}
 	
 	public void return_img() {
-		ImageIcon setbtnIcon = new ImageIcon("images/0.png");
+		ImageIcon setbtnIcon = new ImageIcon("images/card.png");
 		Panelbtn[n1].setIcon(setbtnIcon);
 		Panelbtn[n2].setIcon(setbtnIcon);
 	}
@@ -67,7 +67,7 @@ public class GameButtonActionListener implements ActionListener {
 			}else{
 				wrong++;
 				System.out.println("틀립니다"+ wrong);
-				Icon setbtnIcon = new ImageIcon("images/0.png");
+				Icon setbtnIcon = new ImageIcon("images/card.png");
 				Panelbtn[btnNumChkArr].setIcon(setbtnIcon);
 				Panelbtn[Integer.parseInt(e.getActionCommand())].setIcon(setbtnIcon);
 				GameArr_chkFirst = false;

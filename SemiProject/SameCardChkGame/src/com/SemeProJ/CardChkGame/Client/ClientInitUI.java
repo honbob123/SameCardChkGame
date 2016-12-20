@@ -181,19 +181,19 @@ public class ClientInitUI extends JFrame {
 			switch (Characternumber) {
 			case 0:
 				character_Name.setText("");
-				character_Name.setText("귀엽고 조금한 피글렛!");
+				character_Name.setText("디바");
 				System.out.println("피그렛사진 눌렸다");
 				clientMainUI.Player_SelectCharacter = 0;
 				break;
 			case 1:
 				character_Name.setText("");
-				character_Name.setText("꿀을 좋아하는 주인공 푸!");
+				character_Name.setText("메르시");
 				System.out.println("푸사진 눌렸다");
 				clientMainUI.Player_SelectCharacter = 1;
 				break;
 			case 2:
 				character_Name.setText("");
-				character_Name.setText("남자답고 늠름한 타이거!");
+				character_Name.setText("위도우 메이커");
 				System.out.println("타이거사진 눌렸다");
 				clientMainUI.Player_SelectCharacter = 2;
 				break;

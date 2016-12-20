@@ -57,9 +57,9 @@ public class ClientMainUI extends JFrame{
 		for(int i=0; i<Player_Character.length; i++) { //플레이어 캐릭터 사진 삽입
 			Player_Character[i] = new ImageIcon("images\\c_"+i+".png");
 		}
-		for(int i=0; i<Card_Character.length; i++) {   //카드 캐릭터 사진 삽입
+		for(int i=1; i<Card_Character.length; i++) {   //캐릭터 사진 삽입
 			Card_Character[i] = new ImageIcon("images\\" +i+".png");
-			//image[0] = 0.png
+			//image[0] = 0.png << card.png로 변경하여 배열시작 1부터함
 			//image[1] = 1.png
 			//image[2] = 2.png
 			//image[3] = 3.png
@@ -114,7 +114,7 @@ public class ClientMainUI extends JFrame{
 		
 		Player1_Score = new JLabel("");
 		Player1_Score.setFont(new Font("휴먼둥근헤드라인", Font.PLAIN, 16));
-		Player1_Id.setForeground(Color.WHITE);
+		Player1_Score.setForeground(Color.WHITE);
 		Player1_Score.setBounds(157, 98, 143, 41);
 		Player1.add(Player1_Score);
 		
