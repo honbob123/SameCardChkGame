@@ -210,6 +210,9 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 			//if(socket != this.client_socekt) //자신을 제외한 다른 클라이언트에게
 			try {
 				printWriter = new PrintWriter(socket.getOutputStream(), true);
+				end = 0;
+				score1 = 0;
+				score2 = 0;
 				String removePanel = "Go_to_the_hell" + Id;
 				printWriter.println(removePanel);
 			} catch (IOException e) {
@@ -225,7 +228,7 @@ class ServerMsgRxtoTX extends Thread { //클라이언트로부터 전송된 메�
 		int return_GameArr[] = new int[16];
 		
 		for(int i=0;i<arr.length;i++) {
-			arr[i]=rand.nextInt(8)+1;
+			arr[i]=rand.nextInt(8);
 			for(int x=0;x<i;x++) {
 				if(arr[i]==arr[x])
 					check++;

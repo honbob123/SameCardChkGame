@@ -34,5 +34,4 @@ public class ClientService {
 			System.out.println(e.getMessage());
 		}
 	}
-
 }

@@ -106,6 +106,7 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 	
 	private void Print_Start(String msg) { //게임시작 메소드
 		clientMainUI.textA.append(msg.substring(10) + "\n");
+		clientMainUI.textF.setEnabled(false);
 		for(int i=5; i>0; i--) {
 			try {
 				sleep(1000);
@@ -114,6 +115,7 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 			} catch (InterruptedException e) {}
 		}
 		clientMainUI.textA.append("게임 시작!!" + "\n");
+		clientMainUI.textF.setEnabled(true);
 		clientMainUI.gameScreenOn(); //게임메인화면에 카드 보이게 하는 메소드
 	}
 	

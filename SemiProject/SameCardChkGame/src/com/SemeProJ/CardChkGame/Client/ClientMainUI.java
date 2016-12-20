@@ -53,11 +53,11 @@ public class ClientMainUI extends JFrame{
 	public ClientMainUI(Socket socket) { //생성자
 		this.socket = socket;                          //연결된 소켓 = 메인폼소켓
 		Player_Character = new ImageIcon[3];           //플레이어 캐릭터사진을 배열로 담는다
-		Card_Character = new ImageIcon[9];             //게임 카드사진을 배열로 담는다
+		Card_Character = new ImageIcon[8];             //게임 카드사진을 배열로 담는다
 		for(int i=0; i<Player_Character.length; i++) { //플레이어 캐릭터 사진 삽입
 			Player_Character[i] = new ImageIcon("images\\c_"+i+".png");
 		}
-		for(int i=1; i<Card_Character.length; i++) {   //캐릭터 사진 삽입
+		for(int i=0; i<Card_Character.length; i++) {   //캐릭터 사진 삽입
 			Card_Character[i] = new ImageIcon("images\\" +i+".png");
 			//image[0] = 0.png << card.png로 변경하여 배열시작 1부터함
 			//image[1] = 1.png
@@ -128,7 +128,6 @@ public class ClientMainUI extends JFrame{
 	    scroll.setBounds(685, 356, 326, 365);
 	    textA.setEnabled(false);
 	    scroll.setBorder(null);
-	    textA.setLineWrap(true);
 	    textA.setFont(new Font("Monospaced", Font.PLAIN, 14));
 	    textA.setDisabledTextColor(Color.BLACK);
 	    DefaultCaret caret = (DefaultCaret) textA.getCaret();	// 채팅스크롤 가장 밑으로 옮기는 부분
