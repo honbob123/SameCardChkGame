@@ -19,9 +19,6 @@ import javax.swing.border.EmptyBorder;
 
 public class ClientInitUI extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;      // 컨텐트 팬
 	static JTextField userId;        // 아이디 입력 창
@@ -152,8 +149,7 @@ public class ClientInitUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(clientMainUI.Player_SelectCharacter == -1 || userId.getText().equals("")){
 					JOptionPane.showMessageDialog(null, "아이디와 캐릭터는 반드시 선택해야 합니다!","님?", JOptionPane.ERROR_MESSAGE);
-				}
-				else{
+				}else {
 				clientMsgSend.Send_Msg();      // 확인 누를때 채팅창에 입장글과 상대 클라이언트에게 입장글을 보여준다
 				clientMsgSend.Send_Info();     // player정보를 패널에 넣어준다
 				clientMainUI.isFirst = false;  // 처음입장여부를 아니요로 준다
@@ -163,7 +159,7 @@ public class ClientInitUI extends JFrame {
 			}
 		});
 	}
-
+	
 	static public String getId() {      // 스태틱으로 지정해서 어디서든 호출가능
 		return userId.getText().trim(); // trim()메소드는 공백을 제외한다
 	}

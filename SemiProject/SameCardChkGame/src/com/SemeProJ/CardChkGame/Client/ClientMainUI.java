@@ -21,9 +21,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
  
 public class ClientMainUI extends JFrame{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	JPanel contentPane;
 	JPanel GameMain;                       //게임 화면
@@ -39,9 +37,9 @@ public class ClientMainUI extends JFrame{
 	JLabel Player2_Id;    	 		       //플레이어2 아이디
 	JLabel Player2_Img;     			   //플레이어2 캐릭터사진
 	JLabel Player2_Score;    			   //플레이어2 점수
-	int score1 = 0, score2 = 0; //초기값 0주고
+	int score1 = 0, score2 = 0;            //스코어 초기값 0
 	ImageIcon [] Player_Character;  	   //플레이어 캐릭터 사진
-	int Player_SelectCharacter = -1;   	       //플레이어캐릭터사진 선택 번호 (피글렛:0,푸:1,타이거:2)
+	int Player_SelectCharacter = -1;   	   //플레이어캐릭터사진 선택 번호 (피글렛:0,푸:1,타이거:2)
 	ImageIcon [] Card_Character;   		   //게임 카드 사진
 	boolean isFirst = true;      	       //입장 순서 변수 (처음은 0, 1번째는 1반환, 2번째는 2반환)
 	static public JButton[] Panelbtn = new JButton[16]; // 게임 스크린 버튼
@@ -60,15 +58,7 @@ public class ClientMainUI extends JFrame{
 		}
 		for(int i=0; i<Card_Character.length; i++) {   //캐릭터 사진 삽입
 			Card_Character[i] = new ImageIcon("images\\" +i+".png");
-			//image[0] = 0.png << card.png로 변경하여 배열시작 1부터함
-			//image[1] = 1.png
-			//image[2] = 2.png
-			//image[3] = 3.png
-			//image[4] = 4.png
-			//image[5] = 5.png
-			//image[6] = 6.png
-			//image[7] = 7.png
-			//image[8] = 8.png
+
 		}
 		clientMsgSend = new ClientMsgSend(this);         //서버로 보내는 클래스 객체 생성
 		new ClientInitUI(clientMsgSend, this);           //ID폼 생성
@@ -98,7 +88,6 @@ public class ClientMainUI extends JFrame{
 		
 		Player1 = new JPanel();
 		Player1.setBounds(685, 10, 326, 163);
-		//Player1.setBackground(Color.WHITE);
 		Player1.setOpaque(false);
 		contentPane.add(Player1);
 		Player1.setLayout(null);
@@ -138,7 +127,6 @@ public class ClientMainUI extends JFrame{
 		
 		Player2 = new JPanel();
 		Player2.setLayout(null);
-		//0Player2.setBackground(Color.WHITE);
 		Player2.setOpaque(false);
 		Player2.setBounds(685, 183, 326, 163);
 		contentPane.add(Player2);
@@ -171,7 +159,6 @@ public class ClientMainUI extends JFrame{
 		turn_view.setEnabled(false);
 		turn_view.setVisible(false);
 		Timer = new JPanel();
-		//Timer.setBackground(Color.DARK_GRAY);
 		Timer.setOpaque(false);
 		Timer.add(turn_view);
 		Timer.setBounds(12, 10, 661, 71);
@@ -194,9 +181,7 @@ public class ClientMainUI extends JFrame{
 	}
 	
 	private void MainForm_event() { //메인폼 이벤트 처리 메소드
-		
-		//채팅 입력창에 대한 이벤트
-		textF.addKeyListener(new KeyListener() {
+		textF.addKeyListener(new KeyListener() { //채팅 입력창에 대한 이벤트
 			@Override
 			public void keyTyped(KeyEvent e) {}
 			@Override
@@ -218,10 +203,8 @@ public class ClientMainUI extends JFrame{
 		int return_GameArr[] = new int[16];
 		String[] split_return = msg.substring(msg.indexOf(":")+1).split(",");
 		GameButtonActionListener gba;
-		//ClientCardButton[] CardButton = new ClientCardButton[return_GameArr.length];
 		for(int i = 0; i <split_return.length; i++){
 			return_GameArr[i] = Integer.parseInt(split_return[i]);
-			//Panelbtn[i] = new JButton(new ImageIcon("images/"+return_GameArr[i]+".png"));
 			Panelbtn[i] = new JButton(new ImageIcon("images/card.png"));
 			Panelbtn[i].setRolloverEnabled(false);			// 버튼 투명 관련 옵션
 			Panelbtn[i].setOpaque(false);					// 버튼 투명 관련 옵션
@@ -230,33 +213,19 @@ public class ClientMainUI extends JFrame{
 	      	Panelbtn[i].setBorderPainted(false);			// 버튼 투명 관련 옵션
 	      	gba = new GameButtonActionListener(Panelbtn);
 	      	Panelbtn[i].getIcon();
-	      	Panelbtn[i].addActionListener(gba);
+	      	Panelbtn[i].addActionListener(gba);                 // 버튼 이벤트 등록
 	      	Panelbtn[i].setName(split_return[i]); 				// 버튼 저장값
 	      	Panelbtn[i].setActionCommand(Integer.toString(i));  // 버튼 순서 
 	      	GameMain.add(Panelbtn[i]);
 		}
 		GameMain.setOpaque(true);
 		GameMain.setVisible(false);
-		/*String[] split_return = msg.substring(msg.indexOf(":")+1).split(",");
-		int return_GameArr[] = new int[split_return.length];
-		for(int i=0; i<split_return.length; i++) {
-			return_GameArr[i] = Integer.parseInt(split_return[i]);
-		}
-		ClientCardButton[] clientcardButton = new ClientCardButton[split_return.length]; //서버에서온 배열 길이로 카드버튼을 만든다
-		GameButtonActionListener gameButtonActionListener = new GameButtonActionListener(clientcardButton, this);
-		for(int i=0; i<split_return.length; i++) {
-			clientcardButton[i] = new ClientCardButton(Integer.toString(i), return_GameArr[i], Card_Character[return_GameArr[i]], Card_Character[0]);
-			clientcardButton[i].addActionListener(gameButtonActionListener); //버튼마다 이벤트 등록
-			clientcardButton[i].setContentAreaFilled(false);                 //버튼을 사진크기에 맞춘다
-			clientcardButton[i].setBorderPainted(false);                     //테두리를 없앤다
-			GameMain.add(clientcardButton[i]);
-		}*/
 	}
 	
-	public void gameScreenOn(){
+	public void gameScreenOn(){ //게임 시작하면 게임메인을 화면에 출력하는 메소드
 		GameMain.setVisible(true);
 	}
-	public void gameScreenOff(){
+	public void gameScreenOff(){ //게임 시작하며 게임메인을 화면에 출력을 안하는 메소드
 		GameMain.setVisible(false);
 	}
 }

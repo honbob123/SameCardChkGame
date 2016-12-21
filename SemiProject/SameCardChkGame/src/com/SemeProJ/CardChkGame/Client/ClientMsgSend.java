@@ -11,7 +11,7 @@ class ClientMsgSend { //서버로 전송하는 클래스
 	private Socket socket;
 	private ClientMainUI clientMainUI;
 	public static PrintWriter printWriter;
-	public static String id;  //플레이어 ID
+	public static String id;                //플레이어 ID
 	
 	
 	public ClientMsgSend(ClientMainUI clientMainUI) { //생성자
@@ -20,7 +20,6 @@ class ClientMsgSend { //서버로 전송하는 클래스
 		try {
 			printWriter = new PrintWriter(socket.getOutputStream(), true);
 		} catch (IOException e) {
-			//서버와 연결 에러났을 때 에러창을  뛰운다
 			JOptionPane.showMessageDialog(null, "서버와 연결 에러!","에러창", JOptionPane.ERROR_MESSAGE);
 			System.out.println("서버와 연결 에러1");
 		}

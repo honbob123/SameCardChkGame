@@ -38,9 +38,7 @@ public class ServerService {
 				socket_vec.add(socket);          //연결된 클라이언트를 순서대로 소켓 벡터에 저장
 				System.out.println(socket.getInetAddress() + " : " + socket.getPort()+ "에서 접속하였습니다!");
 				ServerMsgRxtoTX serverMsgRxtoTX1 = new ServerMsgRxtoTX(socket, socket_vec, Info_vec);
-				//ServerMsgRxtoTX serverMsgRxtoTX2 = new ServerMsgRxtoTX(socket, socket_vec, Info_vec);
 				serverMsgRxtoTX1.start(); //서버에서 받는 스레드 실행
-				//serverMsgRxtoTX2.start();
 			}
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, " accept에러발생!","에러창", JOptionPane.ERROR_MESSAGE);

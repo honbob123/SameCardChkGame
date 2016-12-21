@@ -49,24 +49,23 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 						JOptionPane.showMessageDialog(null, "무승부입니다~","무승부", JOptionPane.ERROR_MESSAGE);
 						System.exit(0);
 					}
-					else if(msg.substring(0, 9).equals("Send_Chat")) Print_Msg(msg);                        //채팅 출력 메소드
-					else if(msg.substring(0, 9).equals("Game_stop")) Print_No(msg);
-					else if(msg.substring(0, 9).equals("Game_play")) Print_Yes(msg);
-					else if(msg.substring(1, 10).equals("Send_Info")) Print_Info(msg);                           //정보 출력 메소드
+					else if(msg.substring(0, 9).equals("Send_Chat")) Print_Msg(msg);     //채팅 출력 메소드
+					else if(msg.substring(0, 9).equals("Game_stop")) Print_No(msg);      //플레이어가 자기 차례가 아닐 때 실행되는 메소드
+					else if(msg.substring(0, 9).equals("Game_play")) Print_Yes(msg);     //플레이어가 자기 차례일 때 실행되는 메소드
+					else if(msg.substring(1, 10).equals("Send_Info")) Print_Info(msg);   //정보 출력 메소드
 					else if(msg.substring(0, 10).equals("Send_Start")){
-						Print_Start(msg);                    //게임 시작 메소드
+						Print_Start(msg); //게임 시작 메소드
 						if(msg.endsWith("1")) {
-							turnOn();   //게임 시작 메소드
+							turnOn();
 						}else{
 							turnOff();
 						}
 					}
-					else if(msg.substring(0, 8).equals("Send_End")) Print_End(msg);
 					else if(msg.substring(0, 10).equals("Game_Array")) clientMainUI.gameScreen(msg);	    //게임 배열 받아서 UI로 보내는 부분
 					else if(msg.substring(0, 14).equals("Go_to_the_hell")) Print_Out(msg);                  //플레이어가 나갔을 때 해당 플레이어 정보만 삭제 메소드
 					else if(msg.substring(0, 20).equals("Game_Score_and_Array")) gameScreenDel(msg);		// 상대편이 보낸 정답 부분 gameScreenDel로 보냄
 				}else
-					break;
+					break;//while문 탈출
 			}
 		} catch (IOException e) {
 			System.out.println("서버와 연결이 끊겼습니다!");
@@ -74,17 +73,14 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 		}finally { //서버와 연결이 끊겼을 때  finally 실행
 			try {
 				if(bufferedReader != null) bufferedReader.close(); //입력 시스템 자원 반납
-				if(client_socket != null) client_socket.close();   //?????소켓을 닫는다
-			} catch (IOException e) {
-				System.out.println("똥컴 버리시고 컴퓨터를 새로 사세요!");
-			}
+				if(client_socket != null) client_socket.close();   //소켓을 닫는다
+			} catch (IOException e) {}
 		}
 	}
 	
-	private void Print_Yes(String msg) {
+	private void Print_Yes(String msg) { //플레이어가 자기 차례일 때 실행되는 메소드
 		clientMainUI.turn_view.setText("당신 차례입니다.");
 		clientMainUI.turn_view.setVisible(true);
-		System.out.println("게임해");
 		String test = ClientMainUI.Panelbtn[0].getIcon().toString();
 		System.out.println("문자열 : " + test + " ture or false : " + test.equals("images/card.png"));
 		for(int i = 0; i < 16 ; i++){
@@ -96,9 +92,8 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 		}
 	}
 	
-	private void Print_No(String msg) {
+	private void Print_No(String msg) { //플레이어가 자기 차례가 아닐 때 실행되는 메소드
 		clientMainUI.turn_view.setVisible(false);
-		System.out.println("게임못해");
 		for(int i=0; i<16; i++) {
 			ClientMainUI.Panelbtn[i].setEnabled(false);
 		}
@@ -160,7 +155,6 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 	
 	private void Print_Out(String msg) { //플레이어 나갔을 때 해당 플레이어 정보만 삭제 메소드
 		if(msg.substring(14).equals(clientMainUI.Player1_Id.getText())) {
-			//mainForm.Player1_Id.removeAll();
 			clientMainUI.Player1_Id.setText("");
 			clientMainUI.Player1_Img.setIcon(null);
 			clientMainUI.Player1_Score.setText("");
@@ -197,7 +191,7 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 		ClientMainUI.Panelbtn[GameArrDel2].setEnabled(false);
 	}
 	
-	private void turnOn(){
+	private void turnOn(){ //처음 게임이 시작할 때 차례를 정할 때 실행되는 메소드
 		clientMainUI.turn_view.setText("당신 차례입니다.");
 		clientMainUI.turn_view.setVisible(true);
 		for(int j = 0; j < 16; j++){
@@ -205,7 +199,7 @@ class ClientMsgReceive extends Thread{ //서버에서 오는 데이터를 받는
 		}
 	}
 	
-	private void turnOff(){
+	private void turnOff(){ //처음 게임이 시작할 때 차레를 정할 때 실행되는 메소드
 		clientMainUI.turn_view.setVisible(false);
 		for(int j = 0; j < 16; j++){
 			ClientMainUI.Panelbtn[j].setEnabled(false);
